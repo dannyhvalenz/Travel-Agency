@@ -77,7 +77,7 @@
     </div>
     <!--/.Carousel Wrapper-->
     <div class="mw-100" style="position: absolute; margin-top:100px;">
-        <form action="#" method="POST">
+        <form action="hotelresuts.php" method="POST">
             <h1 class="titulo text-white" style="margin-right:150px">Vuelos</h1>
             <div class="row fixed-middle p-3" style="margin-top:100px;">
                 <div class="form-group px-md-3"">
