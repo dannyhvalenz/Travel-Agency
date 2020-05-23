@@ -6,4 +6,4 @@ Sistema Web para una agencia de viajes
 
 ## Vista Previa
 
-![index-hoteles](/Users/dany/Documents/Github/Travel-Agency/imagenes/index-hoteles.png)
+![index-hoteles](https://github.com/dannyhvalenz/Travel-Agency/blob/master/imagenes/index-hoteles.png)
