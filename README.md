@@ -6,8 +6,7 @@ Sistema Web para una agencia de viajes
 
 ## Preview
 
-![index-hoteles](https://github.com/dannyhvalenz/Travel-Agency/blob/master/imagenes/index-hoteles.png)
-
+![index-hoteles](https://github.com/dannyhvalenz/Travel-Agency/blob/master/imagenes/hoteles.png)
 
 
 ## Third Party Technologies
