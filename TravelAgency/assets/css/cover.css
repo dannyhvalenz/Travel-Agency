@@ -1,0 +1,122 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100vw;
+}
+
+.fondo {
+    background-color: transparent;
+}
+
+.input-format {
+    border-width: 0px;
+    height: 70px !important;
+    border: none;
+    outline: none;
+}
+
+.input-format-sidebar {
+    border-width: 0px;
+    height: 40px;
+    border: none outline: none;
+}
+
+.button-format-sidebar {
+    height: 40px !important;
+    border: none;
+    outline: none;
+}
+
+.new-select {
+    font-size: 30px;
+    overflow: hidden;
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: white;
+    left: 10px !important;
+    outline: none;
+    border-color: #979797;
+    border-width: 2px;
+    height: 70px;
+}
+
+.select-form {
+    font-size: 30px;
+    background-color: white;
+    color: #494f57;
+    border-radius: 5px;
+    left: 10px !important;
+    outline: none;
+    height: 70px;
+    width: 230px;
+    border: none;
+}
+
+select option {
+    font-size: 12px;
+}
+
+.active {
+    color: black;
+}
+
+.titulo {
+    margin-left: 150px;
+    width: 400px;
+    height: 55px;
+    border-style: solid;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-color: #c5c5c8;
+}
+
+.fadein,
+.fadeout {
+    opacity: 0;
+    -moz-transition: opacity 0.4s ease-in-out;
+    -o-transition: opacity 0.4s ease-in-out;
+    -webkit-transition: opacity 0.4s ease-in-out;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.fadein {
+    opacity: 1;
+}
+
+#added {
+    background: #f6f7f6;
+    height: 100vh;
+    width: 50vw;
+    overflow: hidden;
+}
+
+#container {
+    width: 60vw;
+    height: 700px;
+    min-width: 17vw;
+    background-color: #242636;
+    margin: 0 auto;
+    position: relative;
+    float: left;
+}
+
+.header {
+    background-color: transparent;
+}
+
+.header .navbar {
+    background-color: transparent !important;
+}
+
+.a {
+    text-decoration: none;
+}
