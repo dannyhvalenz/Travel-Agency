@@ -25,7 +25,9 @@ document.getElementById("huespedesFiltros").onchange = function() {
 }
 
 document.getElementById("aplicarfiltros").onclick = function() {
+    getList();
     buscarHoteles("aplicarfiltros");
+
 }
 
 /*===================================================================*/

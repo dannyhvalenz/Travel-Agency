@@ -12,6 +12,12 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/">
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+
+    <script src="assets/js/hoteles.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
@@ -101,62 +107,83 @@
                 <div class="form-group px-md-3">
                     <!-- onClick="var x = (document.body.scrollHeight);window.scrollTo(0,x);"-->
                     <button id="buscar" style="margin-top:32px;height: 70px;  width:170px; border:none;" type="button"
-                        class="input-format btn btn-warning form-control">Buscar hotel</button>
+                        class="input-format btn btn-warning form-control" >Buscar hotel</button>
                 </div>
             </div>
         </form>
     </div>
 
     <div id="busqueda" style="clear: both; height:108vh" hidden>
-        <h1 style="position:relative; top:17vh; left:-8vw">Resultados de la búsqueda</h1>
-        <form action="" method="POST">
-            <div style="position:relative; top:20vh ;left:10px">
-            <div class="form-group px-md-3"">
-                    <label class=" text-white" style="margin-left:-84vw;clear: both;">Ciudad</label>
-                    <select class="input-format-sidebar form-control" id="ciudadFiltros"
-                        style="width: 15vw; margin-left:-1vw; border:none;" onChange="cambiarImagen()" required>
-                        <option value="Mexico" selected>Cd. de México, Méx</option>
-                        <option value="EEUU">Nueva York, EEUU</option>
-                        <option value="Canada">Toronto, Canadá</option>
-                    </select>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4">
+                        <div >
+                            <div style="position:relative; top:20vh ;left:10px">
+                            <div class="form-group px-md-3"">
+                                    <label class=" text-white" style="margin-left:-84vw;clear: both;">Ciudad</label>
+                                    <select class="input-format-sidebar form-control" id="ciudadFiltros"
+                                        style="width: 15vw; margin-left:-1vw; border:none;" onChange="cambiarImagen()" required>
+                                        <option value="Mexico" selected>Cd. de México, Méx</option>
+                                        <option value="EEUU">Nueva York, EEUU</option>
+                                        <option value="Canada">Toronto, Canadá</option>
+                                    </select>
 
-                </div>
-                <div class="d-block form-group px-md-3">
-                    <label class=" text-white" style="margin-left:-84vw;">Check-In</label>
-                    <br>
-                    <input name="checkIn" id="checkInFiltros" style="width: 15vw; margin-left:-1vw; border:none;"  min="<?= date('yy-m-d'); ?>" 
-                        class="input-format-sidebar form-control" type="date" value="<?php echo date('yy-m-d'); ?>"
-                        onChange="cambiarCheckOut()" required>
-                </div>
-                <div class="form-group px-md-3"">
-                    <label class=" text-white" style="margin-left:-84vw;">Check-Out</label>
-                    <input name="checkOut" id="checkOutFiltros"  style="width: 15vw; margin-left:-1vw; border:none;"
-                        class="input-format-sidebar form-control" type="date"  min="<?= date('Y-m-d', strtotime("+1 day")); ?>" 
-                        value="<?php $date = date('Y-m-d', strtotime("+1 day")); echo $date;?>" required>
-                </div>
-                <div class="form-group px-md-3"">
-                    <label class=" text-white" style="margin-left:-84vw;clear: both;">Huéspedes</label>
-                    <input name="huespedes" id="huespedesFiltros" style="width: 15vw; margin-left:-1vw; border:none;"
-                        class="input-format-sidebar form-control" type="number" min="1" max="8" value="1" required>
-                </div>
-                <div class="form-group px-md-3"">
-                    <label class=" text-white" style="margin-left:-84vw;clear: both;">Tipo de habitación</label>
-                    <select class="input-format-sidebar form-control" id="tipoHabitacion"
-                        style="width: 15vw; margin-left:-1vw; border:none;" onChange="cambiarImagen()" required>
-                        <option value="Todas" selected>Todas</option>
-                        <option value="Sencilla">Sencilla</option>
-                        <option value="Doble">Doble</option>
-                        <option value="JuniorDoble">Junior Doble</option>
-                        <option value="Suite">Suite</option>
-                    </select>
+                                </div>
+                                <div class="d-block form-group px-md-3">
+                                    <label class=" text-white" style="margin-left:-84vw;">Check-In</label>
+                                    <br>
+                                    <input name="checkIn" id="checkInFiltros" style="width: 15vw; margin-left:-1vw; border:none;"  min="<?= date('yy-m-d'); ?>" 
+                                        class="input-format-sidebar form-control" type="date" value="<?php echo date('yy-m-d'); ?>"
+                                        onChange="cambiarCheckOut()" required>
+                                </div>
+                                <div class="form-group px-md-3"">
+                                    <label class=" text-white" style="margin-left:-84vw;">Check-Out</label>
+                                    <input name="checkOut" id="checkOutFiltros"  style="width: 15vw; margin-left:-1vw; border:none;"
+                                        class="input-format-sidebar form-control" type="date"  min="<?= date('Y-m-d', strtotime("+1 day")); ?>" 
+                                        value="<?php $date = date('Y-m-d', strtotime("+1 day")); echo $date;?>" required>
+                                </div>
+                                <div class="form-group px-md-3"">
+                                    <label class=" text-white" style="margin-left:-84vw;clear: both;">Huéspedes</label>
+                                    <input name="huespedes" id="huespedesFiltros" style="width: 15vw; margin-left:-1vw; border:none;"
+                                        class="input-format-sidebar form-control" type="number" min="1" max="8" value="1" required>
+                                </div>
+                                <div class="form-group px-md-3"">
+                                    <label class=" text-white" style="margin-left:-84vw;clear: both;">Tipo de habitación</label>
+                                    <select class="input-format-sidebar form-control" id="tipoHabitacion"
+                                        style="width: 15vw; margin-left:-1vw; border:none;" onChange="cambiarImagen()" required>
+                                        <option value="Todas" selected>Todas</option>
+                                        <option value="Sencilla">Sencilla</option>
+                                        <option value="Doble">Doble</option>
+                                        <option value="JuniorDoble">Junior Doble</option>
+                                        <option value="Suite">Suite</option>
+                                    </select>
 
+                                </div>
+                                <div class="form-group px-md-3"">
+                                    <button  type="button" id="aplicarfiltros" style="width: 15vw; margin-left:-1vw; margin-top:4vw" 
+                                    class=" btn-warning button-format-sidebar form-control" >Aplicar filtros</button>
+                                </div>
+                            </div>
+                    </div>
+                    
                 </div>
-                <div class="form-group px-md-3"">
-                    <button  type="button" id="aplicarfiltros" style="width: 15vw; margin-left:-1vw; margin-top:4vw" 
-                    class=" btn-warning button-format-sidebar form-control">Aplicar filtros</button>
+                <div class="col-sm-8">
+                    <h1 style="position:relative; top:17vh; left:-8vw">Resultados de la búsqueda</h1>
+                    <div id="listaHoteles" class="list-group" v-if="bandera === true" v-for="item in db">
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{item}}</h5>
+                            </div>
+                            <p class="mb-1">{{item.ciudad}}</p>
+                          
+                        </a>
+                    </div>
+
+                    
                 </div>
             </div>
-        </form>
+        </div>
     </div>
     <div id="footer-div"class="card-footer text-muted" style="position:fixed;" hidden>
         Agencia de viajes - @dannyhvalenz
@@ -177,6 +204,7 @@
     <script type="text/javascript" src="assets/js/mdb.min.js"></script>
     <!--SMOOTH SCROLL & RESIZE-->
     <script src="assets/js/myJS/myscript.js"></script>
+    
     <script>
     function cambiarImagen() {
         var ciudad = document.getElementById("ciudad").value;
