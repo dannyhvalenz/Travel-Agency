@@ -134,7 +134,8 @@
                                     <label class=" text-white" style="margin-left:-84vw;">Check-In</label>
                                     <br>
                                     <input name="checkIn" id="checkInFiltros" style="width: 15vw; margin-left:-1vw; border:none;"  min="<?= date('yy-m-d'); ?>" 
-                                        class="input-format-sidebar form-control" type="date" value="<?php echo date('yy-m-d'); ?>"
+                                        class="input-format-sidebar form-control" type="date" value="
+                                        "
                                         onChange="cambiarCheckOut()" required>
                                 </div>
                                 <div class="form-group px-md-3"">

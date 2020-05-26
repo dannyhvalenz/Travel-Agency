@@ -1,0 +1,52 @@
+.resize {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
+    transition-timing-function: linear;
+    -webkit-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: width 2s;
+    width: 100%;
+    background-color: #242636;
+}
+
+.resize-CAROUSEL {
+    margin-top: 0px;
+    width: 50vw;
+    object-fit: scale-down;
+    float: right;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
+}
+
+.new-select {
+    border: 0 !important;
+    font-size: 30px;
+    overflow: hidden;
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: white;
+    left: 10px !important;
+    outline: none;
+    border-color: #979797;
+    border-width: 2px;
+    height: 70px;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+
+.separador {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,20 @@
+.header {
+    background-color: transparent;
+}
+
+.header .navbar {
+    background-color: transparent !important;
+}
+
+.a {
+    text-decoration: none;
+}
+
+.scrollable-place {
+    height: 1000px;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
