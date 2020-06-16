@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-
+    $('#resultadosSection').hide();
+    $('#footer').hide();
     $('#checkIn').datepicker({
         language: "es",
         todayBtn: "linked",
@@ -32,15 +33,14 @@ let buscarHotel = async() => {
 
     let buscarSection = document.getElementById('resultados');
     let x = buscarSection.scrollHeight;
+    $('#resultadosSection').show(1000);
+    $('#footer').show(1000);
 
     $('html, body').animate({
 
         scrollTop: $("#resultados").offset().top
 
     }, 2000);
-
-
-
 
 
 
