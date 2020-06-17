@@ -1,7 +1,9 @@
 $(document).ready(function() {
-
+    $('#userAccount').hide();
     $('#resultadosSection').hide();
     $('#footer').hide();
+
+
     $('#checkIn').datepicker({
         language: "es",
         todayBtn: "linked",
@@ -18,8 +20,36 @@ $(document).ready(function() {
         todayHighlight: true,
         startDate: new Date(),
     });
+    $('#checkIn0').datepicker({
+        language: "es",
+        todayBtn: "linked",
+        format: "dd/mm/yyyy",
+        multidate: false,
+        todayHighlight: true,
+        startDate: new Date(),
+    });
+
+    $('#checkOut0').datepicker({
+        language: "es",
+        format: "dd/mm/yyyy",
+        multidate: false,
+        todayHighlight: true,
+        startDate: new Date(),
+    });
+
+    $('#datepicker').datepicker({
+        language: "es",
+        format: "dd/mm/yyyy",
+        multidate: false,
+        todayHighlight: true,
+        startDate: new Date(),
+    });
+
     $('#checkIn').datepicker('setDate', new Date());
     $('#checkOut').datepicker('setDate', new Date((new Date()).valueOf() + 1000 * 3600 * 24));
+    $('#checkIn0').datepicker('setDate', new Date());
+    $('#checkOut0').datepicker('setDate', new Date((new Date()).valueOf() + 1000 * 3600 * 24));
+    verificar();
 
 });
 $(window).on("scroll", function() {
@@ -27,7 +57,6 @@ $(window).on("scroll", function() {
         $("body").removeClass("stop-scrolling");
     }
 });
-
 
 let buscarHotel = async() => {
 
@@ -45,4 +74,23 @@ let buscarHotel = async() => {
 
 
 
+}
+
+function verificar() {
+    axios.post(URL_SERVICE + '/verificar', null, {
+            headers: {
+                'Authorization': window.localStorage.getItem('token'),
+            }
+        })
+        .then((response) => {
+            $('#registerButton').hide();
+            $('#iniciarSesionButton').hide();
+            $('#userAccount').show(100);
+            var nombre = response.data.nombre.split(' ');
+            $('#userName').prepend(nombre[0]);
+        })
+        .catch((error) => {
+            $('#accountBtn').hide();
+            window.localStorage.removeItem('token');
+        });
 }

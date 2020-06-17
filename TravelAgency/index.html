@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="assets/img/favicon.png">
-    <title>Travel Agency</title>
+    <title>Travel Agency | Hoteles</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="assets/fontawesome-5.13.0/css/all.css">
@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/bootstrap-datepicker.standalone.css">
     <link rel="stylesheet" href="assets/css/bootstrap-select.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
 
 
 
@@ -24,13 +25,13 @@
 
 </head>
 
-<body id="SLIDE_BG" style="background-color: #242636;">
+<body class="stop-scrolling" id="SLIDE_BG" style="background-color: #242636;">
 
 
 
     <header>
 
-        <nav class="navbar navbar-expand-sm navbar-dark ">
+        <nav class="navbar navbar-expand-sm navbar-dark alpha">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -48,14 +49,28 @@
                         </a>
                     </li>
                     <li class="nav-item  px-md-3">
-                        <a class="nav-link " href="#">
+                        <a class="nav-link " href="vuelos.html">
                             <i class="fas fa-plane-arrival"></i> Vuelos
                         </a>
                     </li>
-                    <li class="nav-item  px-md-3">
-                        <a class="nav-link " href="#">
+                    <li id="iniciarSesionButton" class="nav-item  px-md-3">
+                        <a class="nav-link " href="#" data-toggle="modal" data-target="#iniciarSesionModal">
                             <i class="fas fa-user"></i> Iniciar Sesión</a>
                     </li>
+                    <li id="registerButton" class="nav-item  px-md-3">
+                        <a class="nav-link " href="#" data-toggle="modal" data-target="#crearCuentaModal">
+                            <i class="fas fa-door-open"></i> Crear Cuenta</a>
+                    </li>
+                    <li id="userAccount" class="nav-item dropdown px-md-3">
+                        <a class="nav-link " href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i> <span id="userName" class="col text-capitalize"></span>
+
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#" onclick="logout()">Cerrar Sesión</a>
+                        </div>
+                    </li>
+
 
                 </ul>
 
@@ -66,21 +81,26 @@
 
 
     </header>
-    <section id="buscar">
+    <section class="row h-100 animate__animated animate__fadeInDown" id="buscar">
 
-        <div class="m-lg-5 text-white">
-            <h1 id="textoBienvenida"></h1>
-        </div>
 
-        <div class="container align-middle" style="margin-top: 5%;">
-            <div class=" row justify-content-md-center mb-lg-5 ">
+
+        <div class="container col-sm-12 p-5" style="margin-top: auto; margin-bottom: auto; ">
+            <div class="row " style="margin-bottom: 10%;">
+                <div class="col-sm-12 text-center">
+                    <div class=" text-white">
+
+                        <h1 id="textoBienvenida"><i class="fas fa-hotel"></i> </h1>
+                    </div>
+                </div>
+            </div>
+            <div class=" row justify-content-md-center ">
                 <div class="col-sm-12 ">
                     <div class="form-group ">
                         <h4 class="text-white ">Selecciona una ciudad </h4>
                         <select class="selectpicker form-control " data-style="btn-warning ">
-                          <option>Mustard</option>
-                          <option>Ketchup</option>
-                          <option>Relish</option>
+                          <option>Ciudad de México, México</option>
+                          <option>New York, Estados Unidos</option>
                         </select>
                     </div>
                 </div>
@@ -89,19 +109,19 @@
                 <div class="col-sm-3 text-center ">
                     <label class="text-white " for="checkIn ">Check-In</label>
                     <div class="input-group input-group-lg ">
-                        <input id="checkIn " placeholder="dd / mm / aaaa " class="form-control text-center " aria-label="Sizing example input " aria-describedby="inputGroup-sizing-lg ">
+                        <input id="checkIn" placeholder="dd / mm / aaaa " class="form-control text-center " aria-label="Sizing example input " aria-describedby="inputGroup-sizing-lg ">
                     </div>
 
                 </div>
                 <div class="col-sm-3 text-center ">
                     <label class="text-white " for="checkIn ">Check-Out</label>
                     <div class="input-group input-group-lg ">
-                        <input id="checkOut " placeholder="dd / mm / aaaa " class="form-control text-center " aria-label="Sizing example input " aria-describedby="inputGroup-sizing-lg ">
+                        <input id="checkOut" placeholder="dd / mm / aaaa " class="form-control text-center " aria-label="Sizing example input " aria-describedby="inputGroup-sizing-lg ">
                     </div>
 
                 </div>
                 <div class="col-sm-3 text-center ">
-                    <label class="text-white " for="checkIn ">Huespedes</label>
+                    <label class="text-white" for="checkIn ">Huespedes</label>
 
                     <div class="input-group input-group-lg ">
                         <input value="1 " min="1 " id="huespedes " type="number " class="form-control text-center " aria-label="Sizing example input " aria-describedby="inputGroup-sizing-lg ">
@@ -118,18 +138,6 @@
         </div>
 
 
-
-        <div class="container-fluid ">
-            <div class="row justify-content-around ">
-                <div class=" col-sm-9 ">
-                    <div class=" container " style="position: absolute; margin-top:100px; ">
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
 
 
 
@@ -159,7 +167,7 @@
                             <div class="col-sm-12 ">
                                 <label class="text-white " for="checkIn ">Check-In</label>
                                 <div class="input-group input-group-lg ">
-                                    <input id="checkIn " placeholder="dd / mm / aaaa " class="form-control text-center " aria-label="Sizing example input " aria-describedby="inputGroup-sizing-lg ">
+                                    <input id="checkIn0" placeholder="dd / mm / aaaa " class="form-control text-center " aria-label="Sizing example input " aria-describedby="inputGroup-sizing-lg ">
                                 </div>
                             </div>
                         </div>
@@ -168,7 +176,7 @@
                             <div class="col-sm-12 ">
                                 <label class="text-white " for="checkIn ">Check-Out</label>
                                 <div class="input-group input-group-lg ">
-                                    <input id="checkOut " placeholder="dd / mm / aaaa " class="form-control text-center " aria-label="Sizing example input " aria-describedby="inputGroup-sizing-lg ">
+                                    <input id="checkOut0" placeholder="dd / mm / aaaa " class="form-control text-center " aria-label="Sizing example input " aria-describedby="inputGroup-sizing-lg ">
                                 </div>
                             </div>
                         </div>
@@ -266,8 +274,119 @@
     <!-- end of footer -->
 
 
+
+    <div class="modal fade" id="iniciarSesionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: #242636;">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i> Iniciar Sesión</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alertaLogin" class="alert alert-danger" role="alert">
+                        <h5 id="messageLogin"></h5>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="emailLogin" class="col-form-label">Correo Eléctronico</label>
+                            <input type="text" class="form-control" id="emailLogin">
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordLogin" class="col-form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="passwordLogin">
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-center text-dark p-3">
+                        <div id="spinnerLoadingLogin" class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button onclick="login()" type="button" class="btn btn-primary" style="background-color: #242636;"><i class="fas fa-door-open"></i> Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="crearCuentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: #242636;">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i> Iniciar Sesión</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alertaRegister" class="alert alert-danger" role="alert">
+                        <h5 id="messageAlert"></h5>
+                    </div>
+                    <form>
+                        <div class="form-group ">
+                            <label for="nameRegister" class="col-form-label ">Nombre(s)</label>
+                            <input type="text" class="form-control " id="nameRegister">
+                        </div>
+                        <div class="form-group">
+                            <label for="apellidoRegister" class="col-form-label ">Apellido(s)</label>
+                            <input type="text" class="form-control " id="apellidoRegister">
+                        </div>
+                        <div class="form-group">
+                            <label for="emaiRegister" class="col-form-label">Correo Eléctronico</label>
+                            <input type="text" class="form-control" id="emaiRegister">
+                        </div>
+                        <div class="form-group ">
+                            <label for="passwordRegister" class="col-form-label ">Contraseña</label>
+                            <input type="password" class="form-control " id="passwordRegister">
+                        </div>
+                        <div class="form-group ">
+                            <label for="passwordConfRegister" class="col-form-label ">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="passwordConfRegister">
+                        </div>
+
+                    </form>
+                    <div class="d-flex justify-content-center text-dark p-3">
+                        <div id="spinnerLoadingCreate" class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center ">
+                    <button onclick="crearCuenta()" type="button " class="btn btn-primary " style="background-color: #242636; "><i class="far fa-user-circle "></i> Crear Cuenta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="successAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white bg-success">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i>Registro Completado</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <p class="h4">Hola <strong id="userRegister"></strong> bienvenid@ a Travel Agent</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" style="background-color: #242636;" data-dismiss="modal" onclick="$('#iniciarSesionModal').modal('show')"><i class="fas fa-door-open" ></i> Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin="anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/vue "></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1 "></script>
@@ -277,7 +396,11 @@
     <script src="assets/js/bootstrap-select.min.js "></script>
     <script src="assets/js/i18n/defaults-es_ES.js "></script>
     <script src="assets/locales/bootstrap-datepicker.es.min.js "></script>
+    <script src="assets/js/config/config.js "></script>
     <script src="assets/js/main.js "></script>
+    <script src="assets/js/createAccount.js "></script>
+    <script src="assets/js/login.js "></script>
+    <script src="assets/js/logout.js "></script>
 </body>
 
 </html>
