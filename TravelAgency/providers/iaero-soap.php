@@ -48,4 +48,5 @@
         $fecha = date('Y-m-d', strtotime($date));
         return $fecha;
     }
+    
 ?>
