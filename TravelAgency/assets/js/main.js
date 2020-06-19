@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $('#userAccount').hide();
-    $('#resultadosSection').hide();
     $('#footer').hide();
 
 
@@ -53,9 +52,13 @@ $(document).ready(function() {
 
 });
 $(window).on("scroll", function() {
-    if ($(this).scrollTop() >= $("#resultados").offset().top - $(this).height()) {
-        $("body").removeClass("stop-scrolling");
+    var url = $(this).attr('title');
+    if (url == 'Travel Agency | Hoteles') {
+        if ($(this).scrollTop() >= $("#resultados").offset().top - $(this).height()) {
+            $("body").removeClass("stop-scrolling");
+        }
     }
+
 });
 
 let buscarHotel = async() => {
