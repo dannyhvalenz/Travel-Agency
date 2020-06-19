@@ -1,0 +1,1 @@
+$('#alertaVuelos').hide();

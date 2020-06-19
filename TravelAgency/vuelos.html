@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="Spanish">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/img/favicon.png">
+    <title>Travel Agency | Vuelos</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="assets/fontawesome-5.13.0/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-datepicker.standalone.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-select.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
+
+
+
+
+
+</head>
+
+<body>
+    <video autoplay="autoplay" loop="loop" id="video_background" preload="auto" volume="50" />
+    <source src="assets/videos/Fly.mp4" type="video/mp4" />
+    </video/>
+
+
+    <header>
+
+        <nav class="navbar navbar-expand-sm navbar-dark alpha">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img src="assets/img/logo-letras.png" alt="icon"></a>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+
+                </ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item   px-md-3">
+                        <a class="nav-link " href="index.html">
+                            <i class="fas fa-hotel"></i> Hoteles
+                        </a>
+                    </li>
+                    <li class="nav-item  active px-md-3">
+                        <a class="nav-link " href="#">
+                            <i class="fas fa-plane-arrival"></i> Vuelos
+                        </a>
+                    </li>
+                    <li id="iniciarSesionButton" class="nav-item  px-md-3">
+                        <a class="nav-link " href="#" data-toggle="modal" data-target="#iniciarSesionModal">
+                            <i class="fas fa-user"></i> Iniciar Sesión</a>
+                    </li>
+                    <li id="registerButton" class="nav-item  px-md-3">
+                        <a class="nav-link " href="#" data-toggle="modal" data-target="#crearCuentaModal">
+                            <i class="fas fa-door-open"></i> Crear Cuenta</a>
+                    </li>
+                    <li id="userAccount" class="nav-item dropdown px-md-3">
+                        <a class="nav-link " href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i> <span id="userName" class="col text-capitalize"></span>
+
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#" onclick="logout()">Cerrar Sesión</a>
+                        </div>
+                    </li>
+
+
+                </ul>
+
+            </div>
+        </nav>
+
+
+
+
+    </header>
+
+    <section class="row h-100 animate__animated animate__fadeInDown" id="buscarVuelo">
+        <div class="container col-sm-12 p-5" style="margin-top: auto; margin-bottom: auto; ">
+            <div class="row " style="margin-bottom: 10%;">
+                <div class="col-sm-12 text-center">
+                    <div class=" text-white">
+
+                        <h1 id="textoBienvenida"><i class="fas fa-plane-arrival"></i> </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="container alpha rounded-lg p-3">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2>Selecciona una ciudad</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label class="text-white" for="origin">Selecciona tu origen</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <select id="origin" class="custom-select custom-select-sm">
+                                            <option selected>Origen</option>
+                                            <option value="CDM-MX">Ciudad de México, México</option>
+                                            <option value="NYC-EU">New York, Estados Unidos</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label class="text-white" for="destino">Selecciona tu destino</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <select id="destino" class="custom-select custom-select-sm">
+                                            <option selected>Destino</option>
+                                            <option value="NYC-EU">New York, Estados Unidos</option>
+                                            <option value="CDM-MX">Ciudad de México, México</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label class="text-white" for="date">¿Cuándo deseas salir?</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <input id="datepicker" class="form-control text-center" placeholder="dd-mm-aaaa" name="fecha" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center text-center" style="margin-top: 20px;">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" onclick="vuelos()"><i class="fas fa-search"></i> Buscar Viaje</button>
+                        </div>
+                        <div id="alertaVuelos" class="col-sm-12 alert alert-danger" role="alert">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+
+    </section>
+
+
+
+
+
+    <!-- footer -->
+    <footer id="footer" class="py-4 text-white-50 " style="background-color: #242636; ">
+        <div class="container ">
+            <div class="row ">
+                <div class="col-md-4 text-center text-md-left ">
+
+                    <div class="py-0 ">
+                        <h3 class="my-4 text-white "><img src="assets/img/logo-letras.png " alt="icon "></h3>
+
+
+                        <p class="text-light py-4 mb-4 ">&copy;2020 Tecnologias para la integración de soluciones</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 text-white text-center text-md-left ">
+                    <div class="py-2 my-4 ">
+                        <h3>Miembros</h3>
+                    </div>
+                    <ul>
+                        <li>Daniela Herández Valenzuela</li>
+                        <li>Yael Ruiz Pucheta</li>
+                        <li>Jorge Alberto Santiago Herández</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 text-white my-4 text-center text-md-left ">
+                    <span class=" font-weight-bold ">Conoce nuestro código</span>
+                    <p class="text-warning my-2 ">Visita nuestro respositorio en GitHub es Gratis!.</p>
+                    <div class="py-2 d-flex justify-content-center ">
+                        <a href="https://github.com/dannyhvalenz/Travel-Agency"><i class="fab fa-github fa-2x text-white mx-3 "></i></a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end of footer -->
+
+
+
+    <div class="modal fade" id="iniciarSesionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: #242636;">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i> Iniciar Sesión</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alertaLogin" class="alert alert-danger" role="alert">
+                        <h5 id="messageLogin"></h5>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="emailLogin" class="col-form-label">Correo Eléctronico</label>
+                            <input type="text" class="form-control" id="emailLogin">
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordLogin" class="col-form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="passwordLogin">
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-center text-dark p-3">
+                        <div id="spinnerLoadingLogin" class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button onclick="login()" type="button" class="btn btn-primary" style="background-color: #242636;"><i class="fas fa-door-open"></i> Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="crearCuentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: #242636;">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i> Iniciar Sesión</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alertaRegister" class="alert alert-danger" role="alert">
+                        <h5 id="messageAlert"></h5>
+                    </div>
+                    <form>
+                        <div class="form-group ">
+                            <label for="nameRegister" class="col-form-label ">Nombre(s)</label>
+                            <input type="text" class="form-control " id="nameRegister">
+                        </div>
+                        <div class="form-group">
+                            <label for="apellidoRegister" class="col-form-label ">Apellido(s)</label>
+                            <input type="text" class="form-control " id="apellidoRegister">
+                        </div>
+                        <div class="form-group">
+                            <label for="emaiRegister" class="col-form-label">Correo Eléctronico</label>
+                            <input type="text" class="form-control" id="emaiRegister">
+                        </div>
+                        <div class="form-group ">
+                            <label for="passwordRegister" class="col-form-label ">Contraseña</label>
+                            <input type="password" class="form-control " id="passwordRegister">
+                        </div>
+                        <div class="form-group ">
+                            <label for="passwordConfRegister" class="col-form-label ">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="passwordConfRegister">
+                        </div>
+
+                    </form>
+                    <div class="d-flex justify-content-center text-dark p-3">
+                        <div id="spinnerLoadingCreate" class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center ">
+                    <button onclick="crearCuenta()" type="button " class="btn btn-primary " style="background-color: #242636; "><i class="far fa-user-circle "></i> Crear Cuenta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="successAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white bg-success">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i>Registro Completado</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <p class="h4">Hola <strong id="userRegister"></strong> Bienvenid@ a Travel Agent</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" style="background-color: #242636;" data-dismiss="modal" onclick="$('#iniciarSesionModal').modal('show')"><i class="fas fa-door-open" ></i> Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue "></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1 "></script>
+    <script src="assets/js/bootstrap.min.js "></script>
+    <script src="assets/js/bootstrap-datepicker.js "></script>
+    <script src="assets/js/bootstrap-select.min.js "></script>
+    <script src="assets/js/i18n/defaults-es_ES.js "></script>
+    <script src="assets/js/style.js"></script>
+    <script src="assets/js/vuelos.js"></script>
+    <script src="assets/locales/bootstrap-datepicker.es.min.js "></script>
+    <script src="assets/js/config/config.js "></script>
+    <script src="assets/js/main.js "></script>
+    <script src="assets/js/createAccount.js "></script>
+    <script src="assets/js/login.js "></script>
+    <script src="assets/js/logout.js "></script>
+</body>
+
+</html>
