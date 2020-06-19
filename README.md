@@ -1,7 +1,7 @@
 # Travel-Agency
 
 Sistema Web para una agencia de viajes
-http://54.162.225.248/web/TravelAgency/hoteles.php
+http://54.162.225.248/web/TravelAgency/
 
 
 
