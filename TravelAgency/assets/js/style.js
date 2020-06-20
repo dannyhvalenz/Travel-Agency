@@ -6,7 +6,6 @@ $(document).ready(function() {
     } else {
         txt = 'Los mejores viajes con IAero'
     }
-
     var i = 0;
     var speed = 100;
     if (i < txt.length) {
@@ -22,4 +21,6 @@ $(document).ready(function() {
             setTimeout(typeWriter, speed);
         }
     }
+
+
 });

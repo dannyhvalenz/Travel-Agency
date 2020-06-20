@@ -1,5 +1,7 @@
 $(document).ready(function() {
     $('#userAccount').hide();
+    $('#resultadosSection').hide();
+
     $('#footer').hide();
 
 
@@ -36,6 +38,22 @@ $(document).ready(function() {
         startDate: new Date(),
     });
 
+    $('#fechaLlegadaReservacion').datepicker({
+        language: "es",
+        format: "dd/mm/yyyy",
+        multidate: false,
+        todayHighlight: true,
+        startDate: new Date(),
+    });
+
+    $('#fechaSalidaReservacion').datepicker({
+        language: "es",
+        format: "dd/mm/yyyy",
+        multidate: false,
+        todayHighlight: true,
+        startDate: new Date(),
+    });
+
     $('#datepicker').datepicker({
         language: "es",
         format: "dd/mm/yyyy",
@@ -48,6 +66,14 @@ $(document).ready(function() {
     $('#checkOut').datepicker('setDate', new Date((new Date()).valueOf() + 1000 * 3600 * 24));
     $('#checkIn0').datepicker('setDate', new Date());
     $('#checkOut0').datepicker('setDate', new Date((new Date()).valueOf() + 1000 * 3600 * 24));
+
+    document.getElementById("checkIn").setAttribute("min", new Date());
+    document.getElementById("checkOut").setAttribute("min", new Date());
+    document.getElementById("checkIn0").setAttribute("min", new Date());
+    document.getElementById("checkOut0").setAttribute("min", new Date());
+
+    document.getElementById("fechaLlegadaReservacion").setAttribute("min", new Date());
+    document.getElementById("fechaSalidaReservacion").setAttribute("min", new Date());
     verificar();
 
 });
@@ -74,7 +100,7 @@ let buscarHotel = async() => {
 
     }, 2000);
 
-
+    consultarHotelesInicio();
 
 
 }
