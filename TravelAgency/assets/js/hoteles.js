@@ -15,7 +15,7 @@ function consultarHotelesInicio(){
     } else if (ciudad == "NYC" ){
         document.getElementById("ciudad").selectedIndex = 1;
         actualizarSelectTipoHabitacion(ciudad);
-        recuperarHotelNYC();
+        recuperarHotelNYC(null);
     }
     scroll();
 }
@@ -24,6 +24,11 @@ function actualizarSelectTipoHabitacion(ciudad){
     if (ciudad == "CDMX"){
         var tipoHabitacion = document.getElementById("tipoHabitacion");
         tipoHabitacion.textContent = '';
+
+        var todas =  document.createElement('option');
+        todas.value = "Todas";
+        todas.innerHTML = "Todas";
+        tipoHabitacion.appendChild(todas);
 
         var sencilla =  document.createElement('option');
         sencilla.value = "Sencilla";
@@ -43,6 +48,11 @@ function actualizarSelectTipoHabitacion(ciudad){
         var tipoHabitacion = document.getElementById("tipoHabitacion");
         tipoHabitacion.textContent = '';
 
+        var todas =  document.createElement('option');
+        todas.value = "Todas";
+        todas.innerHTML = "Todas";
+        tipoHabitacion.appendChild(todas);
+
         var sencilla =  document.createElement('option');
         sencilla.value = "Sencilla";
         sencilla.innerHTML = "Sencilla";
@@ -60,7 +70,6 @@ function actualizarSelectTipoHabitacion(ciudad){
 
         var suite =  document.createElement('option');
         suite.value = "Suite";
-        suite.selected = true;
         suite.innerHTML = "Suite";
         tipoHabitacion.appendChild(suite);
     }
@@ -79,7 +88,7 @@ function scroll(){
     }, 2000);
 }
 
-function recuperarHotelNYC(){
+function recuperarHotelNYC(tipoHabitacion){
     new Vue({
         el:"#tablaResultados",
         created: function(){
@@ -98,17 +107,71 @@ function recuperarHotelNYC(){
                         var doble = respuesta.data.Doble;
                         var junior = respuesta.data.Junior;
                         var suite = respuesta.data.Suite;
-                        if(sencilla > 0){
-                            crearTarjetaHabitacion("Sencilla", sencilla);
-                        }
-                        if (doble > 0){
-                            crearTarjetaHabitacion("Doble", doble);
-                        }
-                        if (junior > 0){
-                            crearTarjetaHabitacion("Junior", junior);
-                        }
-                        if (suite > 0){
-                            crearTarjetaHabitacion("Suite", suite);
+                        
+                        if (tipoHabitacion == null){
+                            if(sencilla > 0){
+                                crearTarjetaHabitacion("Sencilla", sencilla);
+                            }
+                            if (doble > 0){
+                                crearTarjetaHabitacion("Doble", doble);
+                            }
+                            if (junior > 0){
+                                crearTarjetaHabitacion("Junior", junior);
+                            }
+                            if (suite > 0){
+                                crearTarjetaHabitacion("Suite", suite);
+                            }
+                        } else if (tipoHabitacion == "Todas"){
+                            var numHuespedes = document.getElementById("huespedes0").value;
+                            if (numHuespedes <= 2){
+                                if(sencilla > 0){
+                                    crearTarjetaHabitacion("Sencilla", sencilla);
+                                }
+                                if (doble > 0){
+                                    crearTarjetaHabitacion("Doble", doble);
+                                }
+                                if (junior > 0){
+                                    crearTarjetaHabitacion("Junior", junior);
+                                }
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } else if (numHuespedes <= 4){
+                                if (doble > 0){
+                                    crearTarjetaHabitacion("Doble", doble);
+                                }
+                                if (junior > 0){
+                                    crearTarjetaHabitacion("Junior", junior);
+                                }
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } else if (numHuespedes <= 6){
+                                if (junior > 0){
+                                    crearTarjetaHabitacion("Junior", junior);
+                                }
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } else if (numHuespedes <= 8){
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } 
+                        } else {
+
+                            if(tipoHabitacion == "Sencilla" && sencilla > 0){
+                                crearTarjetaHabitacion2("Sencilla", sencilla);
+                            }
+                            if (tipoHabitacion == "Doble" && doble > 0){
+                                crearTarjetaHabitacion2("Doble", doble);
+                            }
+                            if (tipoHabitacion == "Junior" && junior > 0){
+                                crearTarjetaHabitacion2("Junior", junior);
+                            }
+                            if (tipoHabitacion == "Suite" && suite > 0){
+                                crearTarjetaHabitacion2("Suite", suite);
+                            }
                         }
                     }).catch((error) =>{
                         console.log(error);
@@ -158,37 +221,6 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
     btnReservar.onclick = function(){cargarTicket(this.name)};
     cardBody.appendChild(btnReservar);
     obtenerPrecio2(tipoHabitacion);
-
-    /* //Version vertical
-    res.className = "card-deck";
-    var card =  document.createElement('div');
-    card.className = "card mb-4";
-    card.style.maxHeight = "300px";
-    res.appendChild(card);
-    card.id = tipoHabitacion;
-    var div1 =  document.createElement('div');
-    div1.className = "view overlay";
-    card.appendChild(div1);
-    var img =  document.createElement('img');
-    img.className = "card-img-left";
-    div1.appendChild(img);
-    var div2 =  document.createElement('div');
-    div2.className = "card-body";
-    card.appendChild(div2);
-    var h5 =  document.createElement('h5');
-    h5.className = "card-title";
-    div2.appendChild(h5);
-    var p =  document.createElement('p');
-    p.className = "card-text";
-    div2.appendChild(p);
-    var btnReservar =  document.createElement('button');
-    btnReservar.className = "btn btn-primary";
-    btnReservar.innerText = "Reservar";
-    btnReservar.setAttribute("data-toggle","modal");
-    btnReservar.setAttribute("data-target", "#modalReservacion");
-    btnReservar.addEventListener("click", cargarTicket(tipoHabitacion));
-    div2.appendChild(btnReservar);
-    */
     switch(tipoHabitacion){
         case "Sencilla":
             img.src = "https://www.fourseasons.com/alt/img-opt/~70.1530.0,0000-156,2282-3000,0000-1687,4999/publish/content/dam/fourseasons/images/web/NYF/NYF_1357_original.jpg";
@@ -215,6 +247,34 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
             break;
     }
     
+}
+
+function crearTarjetaHabitacion2(tipoHabitacion, numDisponibles){
+    var numHuespedes = document.getElementById("huespedes0").value;
+    if (numHuespedes <= 2){
+        crearTarjetaHabitacion(tipoHabitacion,numDisponibles)
+    } else if (numHuespedes <= 4){
+        if (tipoHabitacion != "Sencilla"){
+            crearTarjetaHabitacion(tipoHabitacion,numDisponibles);
+            document.getElementById("errorResultados").hidden = true;
+        } else {
+            document.getElementById("errorResultados").hidden = false;
+        }
+    } else if (numHuespedes <= 6){
+        if (tipoHabitacion == "Sencilla" || tipoHabitacion == "Doble"){
+            document.getElementById("errorResultados").hidden = false;
+        } else {
+            crearTarjetaHabitacion(tipoHabitacion,numDisponibles);
+            document.getElementById("errorResultados").hidden = true;
+        }
+    } else if (numHuespedes <= 8){
+        if (tipoHabitacion == "Suite"){
+            crearTarjetaHabitacion(tipoHabitacion,numDisponibles);
+            document.getElementById("errorResultados").hidden = true;
+        } else {
+            document.getElementById("errorResultados").hidden = false;
+        }
+    } 
 }
 
 function reservar(){
@@ -276,7 +336,6 @@ function cargarTicket(tipoH){
     document.getElementById("huespedesTicket").innerText = "";
     document.getElementById("huespedesTicket").innerText = huespedes;
     
-    //FIXME obtener precio correcto al tener fechas diferentes (solo da precio por default)
     obtenerPrecio();
 }
 
@@ -360,24 +419,14 @@ function obtenerPrecio(){
 
     let diferenciaDias = Math.ceil(diferenciaTiempo / milisegundosEnDia);
     
-    console.log("llegada = "+ llegada);
-    console.log("salida = "+ salida);
-    console.log("diferenciaDias = "+ diferenciaDias);
-
-    //FIXME Problema con diferencia de fechas
-    //let diferenciaDias = Math.floor((salida.getTime() - llegada.getTime()) / 86400000);
     let total = 0;
-    console.log("precio = " + document.getElementById("precioTicket").innerText);
     document.getElementById("precioTicket").innerText = "";
-    console.log("precio = " + document.getElementById("precioTicket").innerText);
     switch(tipo){
         case "Sencilla":
             if (diferenciaDias <= 1){
-                console.log("aqui");
                 document.getElementById("precioTicket").innerText = 900;
             } else {
                 total = 900 * diferenciaDias;
-                console.log("diferenciaDias = " + diferenciaDias);
                 document.getElementById("precioTicket").innerText = total;
             }
             break;
@@ -406,14 +455,6 @@ function obtenerPrecio(){
             }
             break;
     }
-    console.log("precio = " + document.getElementById("precioTicket").innerText);
-    //actualizarNumPersonas(tipo);
-}
-
-function actualizarHabitacionPersonas(numHuespedes, lugar){ //luegar es a que parte de la pagina se refiere
-    if (numHuespedes <=2){
-
-    }
 }
 
 function aplicarFiltros(){
@@ -422,8 +463,10 @@ function aplicarFiltros(){
     if (ciudad == "CDMX"){
         actualizarSelectTipoHabitacion(ciudad);
     } else if (ciudad == "NYC" ){
+        // FIXME se cambia el tipo de habitacion al picar aplicar filtros
+        var tipoHabitacion = document.getElementById("tipoHabitacion").value;
         actualizarSelectTipoHabitacion(ciudad);
-        recuperarHotelNYC();
+        recuperarHotelNYC(tipoHabitacion);
     }
 }
 
