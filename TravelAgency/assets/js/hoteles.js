@@ -384,11 +384,8 @@ function actualizarHabitacionPersonas(numHuespedes, lugar){ //luegar es a que pa
 
     }
 }
-function getFechaSql($fecha){
-    $date = str_replace('/', '-', $fecha);
-    $fecha = date('Y-m-d', strtotime($date));
-    return $fecha;
-}
+
+
 
 function aplicarFiltros(){
     var ciudad = document.getElementById("ciudad").value;
