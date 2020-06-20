@@ -191,25 +191,25 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
     */
     switch(tipoHabitacion){
         case "Sencilla":
-            img.src = "../assets/img/hotel-nyc/doble.jpg";
+            img.src = "https://www.fourseasons.com/alt/img-opt/~70.1530.0,0000-156,2282-3000,0000-1687,4999/publish/content/dam/fourseasons/images/web/NYF/NYF_1357_original.jpg";
             //img.src = "https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg";
             h5.innerText = "Habitación Sencilla";
             p.innerText = "1 Cama King Size \n 2 Personas máximo \n Costo por noche: $900\nPrecio:$"+ precio +"\nDisponibles: " + numDisponibles;
             break;
         case "Doble":
-            img.src = "../img/hotel-nyc/doble.jpg";
+            img.src = "https://www.fourseasons.com/alt/img-opt/~70.1530.0,0000-265,1912-3000,0000-1687,4999/publish/content/dam/fourseasons/images/web/NYF/NYF_1389_original.jpg";
             //img.src = "https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg";
             h5.innerText = "Habitación Doble";
             p.innerText = "2 Cama King Size \n 4 Personas máximo\n Costo por noche: $1400\n Precio:$"+ precio +"\nDisponibles: " + numDisponibles;
             break;
         case "Junior":
             //img.src = "/TravelAgency/assets/img/hotel-nyc/junior.jpg";
-            img.src = "https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg";
+            img.src = "https://www.fourseasons.com/content/dam/fourseasons/images/web/NYF/NYF_1376_aspect16x9.jpg/jcr:content/renditions/cq5dam.web.468.263.jpeg";
             h5.innerText = "Habitación Junior";
             p.innerText = "3 Cama King Size \n 6 Personas máximo \n Costo por noche: $1900\n Precio:$"+ precio +"\nDisponibles: " + numDisponibles;
             break;
         case "Suite":
-            img.src = "../img/hotel-nyc/Suite.jpg";
+            img.src = "https://www.fourseasons.com/alt/img-opt/~70.1530.0,0000-505,4763-3000,0000-1687,5000/publish/content/dam/fourseasons/images/web/NYF/NYF_125_original.jpg";
             h5.innerText = "Habitación Suite";
             p.innerText = "4 Cama King Size \n 8 Personas máximo\n Costo por noche: $2400\n Precio:$"+ precio +"\nDisponibles: " + numDisponibles;
             break;
@@ -291,6 +291,7 @@ function actualizarDatos(){
     
     obtenerPrecio();
 }
+
 function obtenerPrecio2(tipo){
     var llegada = $('#checkIn0').datepicker('getDate');
     var salida = $('#checkOut0').datepicker('getDate');
