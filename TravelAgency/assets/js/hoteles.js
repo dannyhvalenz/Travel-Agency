@@ -149,13 +149,13 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
     p.className = "card-text";
     cardBody.appendChild(p);
     var btnReservar =  document.createElement('button');
-    btnReservar.className = "btn btn-primary";
+    btnReservar.className = "btn btn-primary btnReservar";
     btnReservar.innerText = "Reservar";
     btnReservar.name= tipoHabitacion;
-    console.log(btnReservar.name);
     btnReservar.setAttribute("data-toggle","modal");
     btnReservar.setAttribute("data-target", "#modalReservacion");
-    btnReservar.addEventListener("click", cargarTicket(this.name));
+    //btnReservar.addEventListener("click", cargarTicket(this.name));
+    btnReservar.onclick = function(){cargarTicket(this.name)};
     cardBody.appendChild(btnReservar);
     obtenerPrecio2(tipoHabitacion);
 
@@ -219,23 +219,31 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
 
 function reservar(){
     var ciudad = document.getElementById("ciudadReservacion").value;
+    // FIXME checar si esta loggeado el cliente
     if (ciudad == "CDMX"){
 
     } else if (ciudad == "NYC"){
+
+        // FIXME verificar si existe el cliente en la base de datos del hotel
+        // Si existe recuperar el id
+        // Si no existe crear el cliente y recuperar el id de la base de datos del hotel
+        var llegada = $("#fechaLlegadaReservacion").val();
+        var fechaLlegada = llegada.split("/").reverse().join('-');
+        var salida = $("#fechaSalidaReservacion").val();
+        var fechaSalida = salida.split("/").reverse().join('-');
         var reservacion = {
             idCliente: 1,
             tipoHabitacion: $('#tipoHabitacionTicket').text(),
-            fechaLlegada: $('#fechaLlegadaReservacion').datepicker('getDate'),
-            fechaSalida: $('#fechaSalidaReservacion').datepicker('getDate'),
+            fechaLlegada: fechaLlegada,
+            fechaSalida: fechaSalida,
             numPersonas: parseInt($('#huespedesTicket').text(), 10),
-            //precio: parseInt($('#precioTicket').val(), 10),
-            precio: 2400,
+            precio: parseInt($('#precioTicket').text(), 10),
             status: 'vigente',
         }
         console.log(reservacion);
         console.log(JSON.stringify(reservacion));
-        /*
-        axios.post(URL_SERVICE + 'reservacion', reservacion
+        
+        axios.post(URL_HOTEL_NYC + 'reservacion', reservacion
         ).then((response) => {
             var data = response.data;
             console.log(data);
@@ -243,12 +251,11 @@ function reservar(){
     
         }).catch((error) => {
             console.log(error);
-        });*/
+        });
     }
 }
 
 function cargarTicket(tipoH){
-    console.log("hola");
     var ciudad = document.getElementById("ciudad").value;
     document.getElementById("ciudadReservacion").value = ciudad;
 
@@ -259,19 +266,18 @@ function cargarTicket(tipoH){
     var checkout = document.getElementById("checkOut0").value;
     document.getElementById("fechaSalidaReservacion").value = checkout;
     document.getElementById("checkOutTicket").innerText = checkout;
-
-    // TODO tipo habitacion
-    console.log("Tipo habitacion seleccionada = " + tipoH); 
     
     document.getElementById("tipoHabitacionReservacion").value = tipoH;
     document.getElementById("tipoHabitacionTicket").innerText = "";
     document.getElementById("tipoHabitacionTicket").innerText = tipoH;
-    obtenerPrecio();
-
+    
     var huespedes = document.getElementById("huespedes0").value;
     document.getElementById("huespedesReservacion").value = huespedes;
     document.getElementById("huespedesTicket").innerText = "";
     document.getElementById("huespedesTicket").innerText = huespedes;
+    
+    //FIXME obtener precio correcto al tener fechas diferentes (solo da precio por default)
+    obtenerPrecio();
 }
 
 function actualizarDatos(){
@@ -293,12 +299,19 @@ function actualizarDatos(){
 }
 
 function obtenerPrecio2(tipo){
-    var llegada = $('#checkIn0').datepicker('getDate');
-    var salida = $('#checkOut0').datepicker('getDate');
-    llegada = new Date(llegada);
-    salida = new Date(salida);
+    var llegada = $("#checkIn0").val();
+    var fechaLlegada = llegada.split("/");
+    var salida = $("#checkOut0").val();
+    var fechaSalida = salida.split("/");
+
+    llegada = new Date(fechaLlegada[2],fechaLlegada[1], fechaLlegada[0]);
+    salida = new Date(fechaSalida[2], fechaSalida[1],fechaSalida[0]);
     
-    let diferenciaDias = Math.floor((salida.getTime() - llegada.getTime()) / 86400000);
+    var diferenciaTiempo = Math.abs(salida.getTime() - llegada.getTime());
+    let milisegundosEnDia = (1000 * 3600 * 24);
+
+    let diferenciaDias = Math.ceil(diferenciaTiempo / milisegundosEnDia);
+
     switch(tipo){
         case "Sencilla":
             if (diferenciaDias <= 1){
@@ -334,48 +347,66 @@ function obtenerPrecio2(tipo){
 function obtenerPrecio(){
 
     var tipo = document.getElementById("tipoHabitacionReservacion").value;
-    var llegada = $('#fechaLlegadaReservacion').datepicker('getDate');
-    var salida = $('#fechaSalidaReservacion').datepicker('getDate');
-    llegada = new Date(llegada);
-    salida = new Date(salida);
-    
-    let diferenciaDias = Math.floor((salida.getTime() - llegada.getTime()) / 86400000);
-    let precio = 0;
+    var llegada = $("#fechaLlegadaReservacion").val();
+    var fechaLlegada = llegada.split("/");
+    var salida = $("#fechaSalidaReservacion").val();
+    var fechaSalida = salida.split("/");
 
+    llegada = new Date(fechaLlegada[2],fechaLlegada[1], fechaLlegada[0]);
+    salida = new Date(fechaSalida[2], fechaSalida[1],fechaSalida[0]);
+
+    var diferenciaTiempo = Math.abs(salida.getTime() - llegada.getTime());
+    let milisegundosEnDia = (1000 * 3600 * 24);
+
+    let diferenciaDias = Math.ceil(diferenciaTiempo / milisegundosEnDia);
+    
+    console.log("llegada = "+ llegada);
+    console.log("salida = "+ salida);
+    console.log("diferenciaDias = "+ diferenciaDias);
+
+    //FIXME Problema con diferencia de fechas
+    //let diferenciaDias = Math.floor((salida.getTime() - llegada.getTime()) / 86400000);
+    let total = 0;
+    console.log("precio = " + document.getElementById("precioTicket").innerText);
+    document.getElementById("precioTicket").innerText = "";
+    console.log("precio = " + document.getElementById("precioTicket").innerText);
     switch(tipo){
         case "Sencilla":
             if (diferenciaDias <= 1){
+                console.log("aqui");
                 document.getElementById("precioTicket").innerText = 900;
             } else {
-                precio = 900 * diferenciaDias;
-                document.getElementById("precioTicket").innerText = precio;
+                total = 900 * diferenciaDias;
+                console.log("diferenciaDias = " + diferenciaDias);
+                document.getElementById("precioTicket").innerText = total;
             }
             break;
         case "Doble":
             if (diferenciaDias <= 1){
                 document.getElementById("precioTicket").innerText = 1400;
             } else {
-                precio = 1400 * diferenciaDias;
-                document.getElementById("precioTicket").innerText = precio;
+                total = 1400 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
             }
             break;
         case "Junior":
             if (diferenciaDias <= 1){
                 document.getElementById("precioTicket").innerText = 1900;
             } else {
-                precio = 1900 * diferenciaDias;
-                document.getElementById("precioTicket").innerText = precio;
+                total = 1900 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
             }
             break;
         case "Suite":
             if (diferenciaDias <= 1){
                 document.getElementById("precioTicket").innerText = 2400;
             } else {
-                precio = 2400 * diferenciaDias;
-                document.getElementById("precioTicket").innerText = precio;
+                total = 2400 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
             }
             break;
     }
+    console.log("precio = " + document.getElementById("precioTicket").innerText);
     //actualizarNumPersonas(tipo);
 }
 
@@ -384,8 +415,6 @@ function actualizarHabitacionPersonas(numHuespedes, lugar){ //luegar es a que pa
 
     }
 }
-
-
 
 function aplicarFiltros(){
     var ciudad = document.getElementById("ciudad").value;
@@ -397,3 +426,5 @@ function aplicarFiltros(){
         recuperarHotelNYC();
     }
 }
+
+// FIXME checar que la fecha checkin no sea mayor a la fecha check out
