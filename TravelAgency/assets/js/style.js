@@ -19,6 +19,7 @@ $(document).ready(function() {
             document.getElementById("textoBienvenida").innerHTML += txt.charAt(i);
             i++;
             setTimeout(typeWriter, speed);
+
         }
     }
 
