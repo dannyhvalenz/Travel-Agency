@@ -288,46 +288,19 @@ function reservar(){
         var fechaLlegada = llegada.split("/").reverse().join('-');
         var salida = $("#fechaSalidaReservacion").val();
         var fechaSalida = salida.split("/").reverse().join('-');
-        
         // verificar si existe el cliente en la base de datos del hotel
         //if (usuario != null){ // Si existe recuperar el id
-            var cliente = {
-                correo: usuario.email
-            }
-            var nombre = usuario.nombre;
-            nombre = nombre.split('/');
-            axios.post(URL_HOTEL_NYC + 'cliente', cliente
-            ).then((response) => {
-                var idCliente = response.data.cliente.idCliente;
-                if (idCliente == ""){
-                    //crear usuario
-                    new Vue({
-                        created: function() {
-                            this.recuperarPost();
-                        },
-                        data: {
-                            cliente: []
-                        },
-                        methods: {
-                            recuperarPost: function() {
-                                var nombre = usuario.nombre;
-                                nombre = nombre.split('/');
-                                var apellido = nombre[1];
-                                nombre = nombre[0];
-                                var correo = usuario.email;
-                                let json = JSON.stringify({ nombre, apellido, correo});
-                                this.$http.post('providers/hotel-nyc-soap.php', { metodo: 0, json: json }).then(function(respuesta) {
-                                    this.cliente = respuesta.data;
-                                    idCliente = this.cliente.idCliente;  
-                                    
-                                });
-                            }
-                        }
-                    });
-                    
-                } 
+        var cliente = {
+            correo: usuario.email
+        }
+        var nombre = usuario.nombre;
+        nombre = nombre.split('/');
+        axios.post(URL_HOTEL_NYC + 'cliente', cliente
+        ).then((response) => {
+            console.log(response.data.cliente);
+            if(response.data.cliente != "No existe"){
                 var reservacion = {
-                    idCliente: idCliente,
+                    idCliente: response.data.cliente.idCliente,
                     tipoHabitacion: $('#tipoHabitacionTicket').text(),
                     fechaLlegada: fechaLlegada,
                     fechaSalida: fechaSalida,
@@ -335,24 +308,71 @@ function reservar(){
                     precio: parseInt($('#precioTicket').text(), 10),
                     status: 'vigente',
                 }
-               axios.post(URL_HOTEL_NYC + 'reservacion', reservacion
-                ).then((response) => {
-                    $('#modalReservacion').modal('hide');
-                    $('#successReservacionModal').modal('show');
-                }).catch((error) => {
-                    console.log(error);
-                    $('#modalReservacion').modal('hide');
-                    $('#errorReservacionModal').modal('show');
+                console.log("ya existe usuario");
+                console.log(reservacion);
+                realizarReservacionNYC(reservacion);
+            } else {
+                console.log("crear usuario");
+                new Vue({
+                    created: function() {
+                        this.recuperarPost();
+                    },
+                    data: {
+                        cliente: []
+                    },
+                    methods: {
+                        recuperarPost: function() {
+                            var nombre = usuario.nombre;
+                            nombre = nombre.split('/');
+                            var apellido = nombre[1];
+                            nombre = nombre[0];
+                            var correo = usuario.email;
+                            let json = JSON.stringify({ nombre, apellido, correo});
+                            console.log(json);
+                            this.$http.post('providers/hotel-nyc-soap.php', { metodo: 0, json: json }).then(function(respuesta) {
+                                this.cliente = respuesta.data;
+                                if (this.cliente.respuesta == "exito"){
+                                    axios.get(URL_HOTEL_NYC + 'cliente/last').then((response) => {
+                                        var reservacion = {
+                                            idCliente: response.data.cliente,
+                                            tipoHabitacion: $('#tipoHabitacionTicket').text(),
+                                            fechaLlegada: fechaLlegada,
+                                            fechaSalida: fechaSalida,
+                                            numPersonas: parseInt($('#huespedesTicket').text(), 10),
+                                            precio: parseInt($('#precioTicket').text(), 10),
+                                            status: 'vigente',
+                                        }
+                                        console.log(reservacion);
+                                        realizarReservacionNYC(reservacion);
+                                    }).catch((error) => {
+                                        console.log(error);
+                                        $('#modalReservacion').modal('hide');
+                                        $('#errorReservacionModal').modal('show');
+                                    });
+                                }
+                            });
+                        }
+                    }
                 });
-                
-            }).catch((error) => {
-                console.log(error);
-            });
-       // } else {
-        //    $('#modalReservacion').modal('hide');
-        //    $('#iniciarParaReservarModal').modal('show');
-       // }
+            }
+            
+        }).catch((error) => {
+            console.log(error);
+        });
     }
+}
+
+function realizarReservacionNYC(reservacion){
+    console.log('reservar');
+    axios.post(URL_HOTEL_NYC + 'reservacion', reservacion
+    ).then((response) => {
+        $('#modalReservacion').modal('hide');
+        $('#successReservacionModal').modal('show');
+    }).catch((error) => {
+        console.log(error);
+        $('#modalReservacion').modal('hide');
+        $('#errorReservacionModal').modal('show');
+    });
 }
 
 function cargarTicket(tipoH){

@@ -13,15 +13,15 @@
 
     function getClientes($data){
         global $soapClient;
-        $parametros = array('nombre' => $data->{'nombre'} ,'apellido' => $data->{'apellido'}, 'correo' => $data->{'correo'}, 'telefono' => '0121212121' , 'formaPago' => 'Debito');
+        $randnum = rand(1111111111,9999999999);
+        $parametros = array('nombre' => $data->{'nombre'} ,'apellido' => $data->{'apellido'}, 'correo' => $data->{'correo'}, 'telefono' => $randnum , 'formaPago' => 'Debito');
         $response = $soapClient->call("RegistrarCliente", array($parametros));
-        $exito = "Se ha registrado al cliente ".$data->{'nombre'}." ".$data->{'apellido'}." en el sistema";
-        $res =  preg_split("#/#", $response['respuesta']);
-        if ($res[0] == "Exito"){
-            $dataResponse = array ('respuesta' => 'exito', 'idCliente' => $res[1]);
-        } else if ($res[0] == "Error"){
+        $res =  $response['respuesta'];
+        if ($res == "Exito"){
+            $dataResponse = array ('respuesta' => 'exito');
+        } else if ($res == "Error"){
             $dataResponse = array ('respuesta' => 'error');
-        }else if ($res[0] == "Duplicado"){
+        }else if ($res == "Duplicado"){
             $dataResponse = array ('respuesta' => 'duplicado');
         }
 		header('Content-type: application/json; charset=utf-8');
