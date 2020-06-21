@@ -2,7 +2,7 @@ $(document).ready(function() {
     var url = $(this).attr('title');
     var txt = '';
     if (url == 'Travel Agency | Hoteles') {
-        txt = 'Travel Agent la única agencia de viajes que necesita';
+        txt = 'Travel Agent la única agencia de viajes que necesitas';
     } else {
         txt = 'Los mejores viajes con IAero'
     }

@@ -4,16 +4,18 @@ var caract = new RegExp(/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2
 var alertaRegister = $('#alertaRegister');
 var spinnerLoadingCreate = $('#spinnerLoadingCreate');
 var messageAlert = $('#messageAlert');
-var email = $('#emaiRegister');
-var password = $('#passwordRegister');
-var passwordConfirmacion = $('#passwordConfRegister');
-var nombre = $('#nameRegister');
-var apellido = $('#apellidoRegister');
+
 
 alertaRegister.hide();
 spinnerLoadingCreate.hide();
 
 let crearCuenta = () => {
+    let email = $('#emaiRegister');
+    let password = $('#passwordRegister');
+    let passwordConfirmacion = $('#passwordConfRegister');
+    let nombre = $('#nameRegister');
+    let apellido = $('#apellidoRegister');
+
     if (nombre.val().length == 0 || apellido.val().length == 0 || email.val().length == 0 || password.val().length == 0 || passwordConfirmacion.val().length == 0) {
         (alertaRegister.is(':hidden')) ? alertaRegister.show(200): null;
         messageAlert.html('').prepend('Todos los campos deben estar llenados');
@@ -27,7 +29,7 @@ let crearCuenta = () => {
         (alertaRegister.is(':hidden')) ? null: alertaRegister.hide(200);
         spinnerLoadingCreate.show(200);
 
-        var fullName = `${nombre.val()} ${apellido.val()}`;
+        var fullName = `${nombre.val()} / ${apellido.val()}`;
 
         var usuario = {
             nombre: fullName,
@@ -39,7 +41,8 @@ let crearCuenta = () => {
             .then((response) => {
                 spinnerLoadingCreate.hide(200);
                 var data = response.data;
-                $('#userRegister').prepend(data.usuario.nombre);
+                var nombre = data.usuario.nombre.split('/');
+                $('#userRegister').prepend(nombre[0]);
                 $('#crearCuentaModal').modal('hide');
                 $('#successAccountModal').modal('show');
             })

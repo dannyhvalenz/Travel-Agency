@@ -1,4 +1,5 @@
 let precio;
+let cliente;
 function consultarHotelesInicio(){
     
     var ciudad = document.getElementById("ciudadInicio").value;
@@ -15,7 +16,7 @@ function consultarHotelesInicio(){
     } else if (ciudad == "NYC" ){
         document.getElementById("ciudad").selectedIndex = 1;
         actualizarSelectTipoHabitacion(ciudad);
-        recuperarHotelNYC();
+        recuperarHotelNYC(null);
     }
     scroll();
 }
@@ -24,6 +25,11 @@ function actualizarSelectTipoHabitacion(ciudad){
     if (ciudad == "CDMX"){
         var tipoHabitacion = document.getElementById("tipoHabitacion");
         tipoHabitacion.textContent = '';
+
+        var todas =  document.createElement('option');
+        todas.value = "Todas";
+        todas.innerHTML = "Todas";
+        tipoHabitacion.appendChild(todas);
 
         var sencilla =  document.createElement('option');
         sencilla.value = "Sencilla";
@@ -42,6 +48,11 @@ function actualizarSelectTipoHabitacion(ciudad){
     } else if (ciudad == "NYC" ){
         var tipoHabitacion = document.getElementById("tipoHabitacion");
         tipoHabitacion.textContent = '';
+
+        var todas =  document.createElement('option');
+        todas.value = "Todas";
+        todas.innerHTML = "Todas";
+        tipoHabitacion.appendChild(todas);
 
         var sencilla =  document.createElement('option');
         sencilla.value = "Sencilla";
@@ -60,7 +71,6 @@ function actualizarSelectTipoHabitacion(ciudad){
 
         var suite =  document.createElement('option');
         suite.value = "Suite";
-        suite.selected = true;
         suite.innerHTML = "Suite";
         tipoHabitacion.appendChild(suite);
     }
@@ -79,7 +89,7 @@ function scroll(){
     }, 2000);
 }
 
-function recuperarHotelNYC(){
+function recuperarHotelNYC(tipoHabitacion){
     new Vue({
         el:"#tablaResultados",
         created: function(){
@@ -98,17 +108,71 @@ function recuperarHotelNYC(){
                         var doble = respuesta.data.Doble;
                         var junior = respuesta.data.Junior;
                         var suite = respuesta.data.Suite;
-                        if(sencilla > 0){
-                            crearTarjetaHabitacion("Sencilla", sencilla);
-                        }
-                        if (doble > 0){
-                            crearTarjetaHabitacion("Doble", doble);
-                        }
-                        if (junior > 0){
-                            crearTarjetaHabitacion("Junior", junior);
-                        }
-                        if (suite > 0){
-                            crearTarjetaHabitacion("Suite", suite);
+                        
+                        if (tipoHabitacion == null){
+                            if(sencilla > 0){
+                                crearTarjetaHabitacion("Sencilla", sencilla);
+                            }
+                            if (doble > 0){
+                                crearTarjetaHabitacion("Doble", doble);
+                            }
+                            if (junior > 0){
+                                crearTarjetaHabitacion("Junior", junior);
+                            }
+                            if (suite > 0){
+                                crearTarjetaHabitacion("Suite", suite);
+                            }
+                        } else if (tipoHabitacion == "Todas"){
+                            var numHuespedes = document.getElementById("huespedes0").value;
+                            if (numHuespedes <= 2){
+                                if(sencilla > 0){
+                                    crearTarjetaHabitacion("Sencilla", sencilla);
+                                }
+                                if (doble > 0){
+                                    crearTarjetaHabitacion("Doble", doble);
+                                }
+                                if (junior > 0){
+                                    crearTarjetaHabitacion("Junior", junior);
+                                }
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } else if (numHuespedes <= 4){
+                                if (doble > 0){
+                                    crearTarjetaHabitacion("Doble", doble);
+                                }
+                                if (junior > 0){
+                                    crearTarjetaHabitacion("Junior", junior);
+                                }
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } else if (numHuespedes <= 6){
+                                if (junior > 0){
+                                    crearTarjetaHabitacion("Junior", junior);
+                                }
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } else if (numHuespedes <= 8){
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } 
+                        } else {
+
+                            if(tipoHabitacion == "Sencilla" && sencilla > 0){
+                                crearTarjetaHabitacion2("Sencilla", sencilla);
+                            }
+                            if (tipoHabitacion == "Doble" && doble > 0){
+                                crearTarjetaHabitacion2("Doble", doble);
+                            }
+                            if (tipoHabitacion == "Junior" && junior > 0){
+                                crearTarjetaHabitacion2("Junior", junior);
+                            }
+                            if (tipoHabitacion == "Suite" && suite > 0){
+                                crearTarjetaHabitacion2("Suite", suite);
+                            }
                         }
                     }).catch((error) =>{
                         console.log(error);
@@ -149,46 +213,15 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
     p.className = "card-text";
     cardBody.appendChild(p);
     var btnReservar =  document.createElement('button');
-    btnReservar.className = "btn btn-primary";
+    btnReservar.className = "btn btn-primary btnReservar";
     btnReservar.innerText = "Reservar";
     btnReservar.name= tipoHabitacion;
-    console.log(btnReservar.name);
     btnReservar.setAttribute("data-toggle","modal");
     btnReservar.setAttribute("data-target", "#modalReservacion");
-    btnReservar.addEventListener("click", cargarTicket(this.name));
+    //btnReservar.addEventListener("click", cargarTicket(this.name));
+    btnReservar.onclick = function(){cargarTicket(this.name)};
     cardBody.appendChild(btnReservar);
     obtenerPrecio2(tipoHabitacion);
-
-    /* //Version vertical
-    res.className = "card-deck";
-    var card =  document.createElement('div');
-    card.className = "card mb-4";
-    card.style.maxHeight = "300px";
-    res.appendChild(card);
-    card.id = tipoHabitacion;
-    var div1 =  document.createElement('div');
-    div1.className = "view overlay";
-    card.appendChild(div1);
-    var img =  document.createElement('img');
-    img.className = "card-img-left";
-    div1.appendChild(img);
-    var div2 =  document.createElement('div');
-    div2.className = "card-body";
-    card.appendChild(div2);
-    var h5 =  document.createElement('h5');
-    h5.className = "card-title";
-    div2.appendChild(h5);
-    var p =  document.createElement('p');
-    p.className = "card-text";
-    div2.appendChild(p);
-    var btnReservar =  document.createElement('button');
-    btnReservar.className = "btn btn-primary";
-    btnReservar.innerText = "Reservar";
-    btnReservar.setAttribute("data-toggle","modal");
-    btnReservar.setAttribute("data-target", "#modalReservacion");
-    btnReservar.addEventListener("click", cargarTicket(tipoHabitacion));
-    div2.appendChild(btnReservar);
-    */
     switch(tipoHabitacion){
         case "Sencilla":
             img.src = "https://www.fourseasons.com/alt/img-opt/~70.1530.0,0000-156,2282-3000,0000-1687,4999/publish/content/dam/fourseasons/images/web/NYF/NYF_1357_original.jpg";
@@ -217,25 +250,125 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
     
 }
 
+function crearTarjetaHabitacion2(tipoHabitacion, numDisponibles){
+    var numHuespedes = document.getElementById("huespedes0").value;
+    if (numHuespedes <= 2){
+        crearTarjetaHabitacion(tipoHabitacion,numDisponibles)
+    } else if (numHuespedes <= 4){
+        if (tipoHabitacion != "Sencilla"){
+            crearTarjetaHabitacion(tipoHabitacion,numDisponibles);
+            document.getElementById("errorResultados").hidden = true;
+        } else {
+            document.getElementById("errorResultados").hidden = false;
+        }
+    } else if (numHuespedes <= 6){
+        if (tipoHabitacion == "Sencilla" || tipoHabitacion == "Doble"){
+            document.getElementById("errorResultados").hidden = false;
+        } else {
+            crearTarjetaHabitacion(tipoHabitacion,numDisponibles);
+            document.getElementById("errorResultados").hidden = true;
+        }
+    } else if (numHuespedes <= 8){
+        if (tipoHabitacion == "Suite"){
+            crearTarjetaHabitacion(tipoHabitacion,numDisponibles);
+            document.getElementById("errorResultados").hidden = true;
+        } else {
+            document.getElementById("errorResultados").hidden = false;
+        }
+    } 
+}
+
 function reservar(){
     var ciudad = document.getElementById("ciudadReservacion").value;
+    // FIXME checar si esta loggeado el cliente
     if (ciudad == "CDMX"){
 
     } else if (ciudad == "NYC"){
-        var reservacion = {
-            idCliente: 1,
-            tipoHabitacion: $('#tipoHabitacionTicket').text(),
-            fechaLlegada: $('#fechaLlegadaReservacion').datepicker('getDate'),
-            fechaSalida: $('#fechaSalidaReservacion').datepicker('getDate'),
-            numPersonas: parseInt($('#huespedesTicket').text(), 10),
-            //precio: parseInt($('#precioTicket').val(), 10),
-            precio: 2400,
-            status: 'vigente',
+        var llegada = $("#fechaLlegadaReservacion").val();
+        var fechaLlegada = llegada.split("/").reverse().join('-');
+        var salida = $("#fechaSalidaReservacion").val();
+        var fechaSalida = salida.split("/").reverse().join('-');
+        
+        // FIXME verificar si existe el cliente en la base de datos del hotel
+        verificar();
+       
+        if (usuario != null){ // Si existe recuperar el id
+            console.log(usuario.email);
+            var cliente = {
+                correo: usuario.email
+            }
+            var nombre = usuario.nombre;
+            nombre = nombre.split('/');
+            console.log(nombre);
+            axios.post(URL_HOTEL_NYC + 'cliente', cliente
+            ).then((response) => {
+                var idCliente = response.data.idCliente;
+                console.log(idCliente);
+                console.log(response.data);
+                if (isEmpty(idCliente)){
+                    //crear usuario
+                    console.log(usuario.email);
+                    
+                    new Vue({
+                        created: function() {
+                            this.recuperarPost();
+                        },
+                        data: {
+                            cliente: []
+                        },
+                        methods: {
+                            recuperarPost: function() {
+                                var nombre = usuario.nombre;
+                                nombre = nombre.split('/');
+                                var apellido = nombre[1];
+                                nombre = nombre[0];
+                                var correo = usuario.email;
+                                let json = JSON.stringify({ nombre, apellido, correo});
+                                this.$http.post('providers/hotel-nyc-soap.php', { metodo: 0, json: json }).then(function(respuesta) {
+                                    this.cliente = respuesta.data;
+                                    idCliente = this.cliente.idCliente;  
+                                    
+                                });
+                            }
+                        }
+                    });
+                    
+                } 
+                var reservacion = {
+                    idCliente: idCliente,
+                    tipoHabitacion: $('#tipoHabitacionTicket').text(),
+                    fechaLlegada: fechaLlegada,
+                    fechaSalida: fechaSalida,
+                    numPersonas: parseInt($('#huespedesTicket').text(), 10),
+                    precio: parseInt($('#precioTicket').text(), 10),
+                    status: 'vigente',
+                }
+                console.log(reservacion);
+                
+               axios.post(URL_HOTEL_NYC + 'reservacion', reservacion
+                ).then((response) => {
+                    
+                    console.log(reservacion);
+                    console.log(JSON.stringify(reservacion));
+                    $('#modalReservacion').modal('hide');
+                    $('#successReservacionModal').modal('show');
+                }).catch((error) => {
+                    console.log(error);
+                });
+                
+            }).catch((error) => {
+                console.log(error);
+            });
+            
+        } else {
+            $('#modalReservacion').modal('hide');
+            $('#crearCuentaModal').modal('show');
         }
-        console.log(reservacion);
-        console.log(JSON.stringify(reservacion));
+
+        // Si no existe crear el cliente y recuperar el id de la base de datos del hotel
+        
         /*
-        axios.post(URL_SERVICE + 'reservacion', reservacion
+        axios.post(URL_HOTEL_NYC + 'reservacion', reservacion
         ).then((response) => {
             var data = response.data;
             console.log(data);
@@ -243,12 +376,12 @@ function reservar(){
     
         }).catch((error) => {
             console.log(error);
-        });*/
+        });
+        */
     }
 }
 
 function cargarTicket(tipoH){
-    console.log("hola");
     var ciudad = document.getElementById("ciudad").value;
     document.getElementById("ciudadReservacion").value = ciudad;
 
@@ -259,19 +392,17 @@ function cargarTicket(tipoH){
     var checkout = document.getElementById("checkOut0").value;
     document.getElementById("fechaSalidaReservacion").value = checkout;
     document.getElementById("checkOutTicket").innerText = checkout;
-
-    // TODO tipo habitacion
-    console.log("Tipo habitacion seleccionada = " + tipoH); 
     
     document.getElementById("tipoHabitacionReservacion").value = tipoH;
     document.getElementById("tipoHabitacionTicket").innerText = "";
     document.getElementById("tipoHabitacionTicket").innerText = tipoH;
-    obtenerPrecio();
-
+    
     var huespedes = document.getElementById("huespedes0").value;
     document.getElementById("huespedesReservacion").value = huespedes;
     document.getElementById("huespedesTicket").innerText = "";
     document.getElementById("huespedesTicket").innerText = huespedes;
+    
+    obtenerPrecio();
 }
 
 function actualizarDatos(){
@@ -293,12 +424,19 @@ function actualizarDatos(){
 }
 
 function obtenerPrecio2(tipo){
-    var llegada = $('#checkIn0').datepicker('getDate');
-    var salida = $('#checkOut0').datepicker('getDate');
-    llegada = new Date(llegada);
-    salida = new Date(salida);
+    var llegada = $("#checkIn0").val();
+    var fechaLlegada = llegada.split("/");
+    var salida = $("#checkOut0").val();
+    var fechaSalida = salida.split("/");
+
+    llegada = new Date(fechaLlegada[2],fechaLlegada[1], fechaLlegada[0]);
+    salida = new Date(fechaSalida[2], fechaSalida[1],fechaSalida[0]);
     
-    let diferenciaDias = Math.floor((salida.getTime() - llegada.getTime()) / 86400000);
+    var diferenciaTiempo = Math.abs(salida.getTime() - llegada.getTime());
+    let milisegundosEnDia = (1000 * 3600 * 24);
+
+    let diferenciaDias = Math.ceil(diferenciaTiempo / milisegundosEnDia);
+
     switch(tipo){
         case "Sencilla":
             if (diferenciaDias <= 1){
@@ -334,60 +472,55 @@ function obtenerPrecio2(tipo){
 function obtenerPrecio(){
 
     var tipo = document.getElementById("tipoHabitacionReservacion").value;
-    var llegada = $('#fechaLlegadaReservacion').datepicker('getDate');
-    var salida = $('#fechaSalidaReservacion').datepicker('getDate');
-    llegada = new Date(llegada);
-    salida = new Date(salida);
-    
-    let diferenciaDias = Math.floor((salida.getTime() - llegada.getTime()) / 86400000);
-    let precio = 0;
+    var llegada = $("#fechaLlegadaReservacion").val();
+    var fechaLlegada = llegada.split("/");
+    var salida = $("#fechaSalidaReservacion").val();
+    var fechaSalida = salida.split("/");
 
+    llegada = new Date(fechaLlegada[2],fechaLlegada[1], fechaLlegada[0]);
+    salida = new Date(fechaSalida[2], fechaSalida[1],fechaSalida[0]);
+
+    var diferenciaTiempo = Math.abs(salida.getTime() - llegada.getTime());
+    let milisegundosEnDia = (1000 * 3600 * 24);
+
+    let diferenciaDias = Math.ceil(diferenciaTiempo / milisegundosEnDia);
+    
+    let total = 0;
+    document.getElementById("precioTicket").innerText = "";
     switch(tipo){
         case "Sencilla":
             if (diferenciaDias <= 1){
                 document.getElementById("precioTicket").innerText = 900;
             } else {
-                precio = 900 * diferenciaDias;
-                document.getElementById("precioTicket").innerText = precio;
+                total = 900 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
             }
             break;
         case "Doble":
             if (diferenciaDias <= 1){
                 document.getElementById("precioTicket").innerText = 1400;
             } else {
-                precio = 1400 * diferenciaDias;
-                document.getElementById("precioTicket").innerText = precio;
+                total = 1400 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
             }
             break;
         case "Junior":
             if (diferenciaDias <= 1){
                 document.getElementById("precioTicket").innerText = 1900;
             } else {
-                precio = 1900 * diferenciaDias;
-                document.getElementById("precioTicket").innerText = precio;
+                total = 1900 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
             }
             break;
         case "Suite":
             if (diferenciaDias <= 1){
                 document.getElementById("precioTicket").innerText = 2400;
             } else {
-                precio = 2400 * diferenciaDias;
-                document.getElementById("precioTicket").innerText = precio;
+                total = 2400 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
             }
             break;
     }
-    //actualizarNumPersonas(tipo);
-}
-
-function actualizarHabitacionPersonas(numHuespedes, lugar){ //luegar es a que parte de la pagina se refiere
-    if (numHuespedes <=2){
-
-    }
-}
-function getFechaSql($fecha){
-    $date = str_replace('/', '-', $fecha);
-    $fecha = date('Y-m-d', strtotime($date));
-    return $fecha;
 }
 
 function aplicarFiltros(){
@@ -396,7 +529,18 @@ function aplicarFiltros(){
     if (ciudad == "CDMX"){
         actualizarSelectTipoHabitacion(ciudad);
     } else if (ciudad == "NYC" ){
+        // FIXME se cambia el tipo de habitacion al picar aplicar filtros
+        var tipoHabitacion = document.getElementById("tipoHabitacion").value;
         actualizarSelectTipoHabitacion(ciudad);
-        recuperarHotelNYC();
+        recuperarHotelNYC(tipoHabitacion);
     }
+}
+
+// FIXME checar que la fecha checkin no sea mayor a la fecha check out
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
 }
