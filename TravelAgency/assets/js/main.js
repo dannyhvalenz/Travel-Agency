@@ -1,3 +1,4 @@
+var usuario;
 $(document).ready(function() {
     $('#userAccount').hide();
     $('#resultadosSection').hide();
@@ -127,7 +128,8 @@ function verificar() {
             $('#registerButton').hide();
             $('#iniciarSesionButton').hide();
             $('#userAccount').show(100);
-            var nombre = response.data.nombre.split(' ');
+            usuario = response.data;
+            var nombre = response.data.nombre.split('/');
             $('#userName').prepend(nombre[0]);
         })
         .catch((error) => {
