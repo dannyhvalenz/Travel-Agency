@@ -65,22 +65,22 @@ $(document).ready(function() {
 
     $('#checkIn').datepicker('setDate', new Date());
     $('#checkOut').datepicker('setDate', new Date((new Date()).valueOf() + 1000 * 3600 * 24));
-    $("#buscarHotelBtn").on("click",function(){
+    $("#buscarHotelBtn").on("click", function() {
         $('#checkIn0').datepicker('setDate', $('#checkIn').datepicker('getDate'));
         $('#checkOut0').datepicker('setDate', $('#checkOut').datepicker('getDate'));
     });
 
-    $(".btnReservar").on("click",function(){
+    $(".btnReservar").on("click", function() {
         $('#fechaLlegadaReservacion').datepicker('setDate', $('#checkIn0').datepicker('getDate'));
         $('#fechaSalidaReservacion').datepicker('setDate', $('#checkOut0').datepicker('getDate'));
     });
 
-    $("#checkIn").on("change",function(){
-        if ($('#checkOut').datepicker('getDate') < $('#checkIn').datepicker('getDate')){
-            $('#checkOut').datepicker('setDate', new Date($('#checkOut').datepicker('getDate')).valueOf() + + 1000 * 3600 * 24);
+    $("#checkIn").on("change", function() {
+        if ($('#checkOut').datepicker('getDate') < $('#checkIn').datepicker('getDate')) {
+            $('#checkOut').datepicker('setDate', new Date($('#checkOut').datepicker('getDate')).valueOf() + +1000 * 3600 * 24);
         }
     });
-    document.getElementById("checkIn").setAttribute("min", new Date() );
+    document.getElementById("checkIn").setAttribute("min", new Date());
     document.getElementById("checkOut").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
     document.getElementById("checkIn0").setAttribute("min", new Date());
     document.getElementById("checkOut0").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
@@ -91,7 +91,7 @@ $(document).ready(function() {
 
 });
 $(window).on("scroll", function() {
-    var url = $(this).attr('title');
+    var url = document.title;
     if (url == 'Travel Agency | Hoteles') {
         if ($(this).scrollTop() >= $("#resultados").offset().top - $(this).height()) {
             $("body").removeClass("stop-scrolling");
