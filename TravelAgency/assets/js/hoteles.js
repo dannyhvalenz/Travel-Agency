@@ -217,7 +217,7 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
     btnReservar.innerText = "Reservar";
     btnReservar.name= tipoHabitacion;
     btnReservar.setAttribute("data-toggle","modal");
-    btnReservar.setAttribute("data-target", "#modalReservacion");
+    //btnReservar.setAttribute("data-target", "#modalReservacion");
     //btnReservar.addEventListener("click", cargarTicket(this.name));
     btnReservar.onclick = function(){cargarTicket(this.name)};
     cardBody.appendChild(btnReservar);
@@ -289,26 +289,18 @@ function reservar(){
         var salida = $("#fechaSalidaReservacion").val();
         var fechaSalida = salida.split("/").reverse().join('-');
         
-        // FIXME verificar si existe el cliente en la base de datos del hotel
-        verificar();
-       
-        if (usuario != null){ // Si existe recuperar el id
-            console.log(usuario.email);
+        // verificar si existe el cliente en la base de datos del hotel
+        //if (usuario != null){ // Si existe recuperar el id
             var cliente = {
                 correo: usuario.email
             }
             var nombre = usuario.nombre;
             nombre = nombre.split('/');
-            console.log(nombre);
             axios.post(URL_HOTEL_NYC + 'cliente', cliente
             ).then((response) => {
-                var idCliente = response.data.idCliente;
-                console.log(idCliente);
-                console.log(response.data);
-                if (isEmpty(idCliente)){
+                var idCliente = response.data.cliente.idCliente;
+                if (idCliente == ""){
                     //crear usuario
-                    console.log(usuario.email);
-                    
                     new Vue({
                         created: function() {
                             this.recuperarPost();
@@ -343,66 +335,56 @@ function reservar(){
                     precio: parseInt($('#precioTicket').text(), 10),
                     status: 'vigente',
                 }
-                console.log(reservacion);
-                
                axios.post(URL_HOTEL_NYC + 'reservacion', reservacion
                 ).then((response) => {
-                    
-                    console.log(reservacion);
-                    console.log(JSON.stringify(reservacion));
                     $('#modalReservacion').modal('hide');
                     $('#successReservacionModal').modal('show');
                 }).catch((error) => {
                     console.log(error);
+                    $('#modalReservacion').modal('hide');
+                    $('#errorReservacionModal').modal('show');
                 });
                 
             }).catch((error) => {
                 console.log(error);
             });
-            
-        } else {
-            $('#modalReservacion').modal('hide');
-            $('#crearCuentaModal').modal('show');
-        }
-
-        // Si no existe crear el cliente y recuperar el id de la base de datos del hotel
-        
-        /*
-        axios.post(URL_HOTEL_NYC + 'reservacion', reservacion
-        ).then((response) => {
-            var data = response.data;
-            console.log(data);
-            console.log(response.data);
-    
-        }).catch((error) => {
-            console.log(error);
-        });
-        */
+       // } else {
+        //    $('#modalReservacion').modal('hide');
+        //    $('#iniciarParaReservarModal').modal('show');
+       // }
     }
 }
 
 function cargarTicket(tipoH){
-    var ciudad = document.getElementById("ciudad").value;
-    document.getElementById("ciudadReservacion").value = ciudad;
+    if (usuario != null){
+        var ciudad = document.getElementById("ciudad").value;
+        document.getElementById("ciudadReservacion").value = ciudad;
 
-    var checkin = document.getElementById("checkIn0").value;
-    document.getElementById("fechaLlegadaReservacion").value = checkin;
-    document.getElementById("checkInTicket").innerText = checkin;
+        var checkin = document.getElementById("checkIn0").value;
+        document.getElementById("fechaLlegadaReservacion").value = checkin;
+        document.getElementById("checkInTicket").innerText = checkin;
+        
+        var checkout = document.getElementById("checkOut0").value;
+        document.getElementById("fechaSalidaReservacion").value = checkout;
+        document.getElementById("checkOutTicket").innerText = checkout;
+        
+        document.getElementById("tipoHabitacionReservacion").value = tipoH;
+        document.getElementById("tipoHabitacionTicket").innerText = "";
+        document.getElementById("tipoHabitacionTicket").innerText = tipoH;
+        
+        var huespedes = document.getElementById("huespedes0").value;
+        document.getElementById("huespedesReservacion").value = huespedes;
+        document.getElementById("huespedesTicket").innerText = "";
+        document.getElementById("huespedesTicket").innerText = huespedes;
     
-    var checkout = document.getElementById("checkOut0").value;
-    document.getElementById("fechaSalidaReservacion").value = checkout;
-    document.getElementById("checkOutTicket").innerText = checkout;
+        obtenerPrecio();
+        $('#modalReservacion').modal('show');
+    } else {
+        //$('#modalReservacion').modal('hide');
+        $('#iniciarParaReservarModal').modal('show');
+    }
     
-    document.getElementById("tipoHabitacionReservacion").value = tipoH;
-    document.getElementById("tipoHabitacionTicket").innerText = "";
-    document.getElementById("tipoHabitacionTicket").innerText = tipoH;
     
-    var huespedes = document.getElementById("huespedes0").value;
-    document.getElementById("huespedesReservacion").value = huespedes;
-    document.getElementById("huespedesTicket").innerText = "";
-    document.getElementById("huespedesTicket").innerText = huespedes;
-    
-    obtenerPrecio();
 }
 
 function actualizarDatos(){
@@ -536,11 +518,9 @@ function aplicarFiltros(){
     }
 }
 
-// FIXME checar que la fecha checkin no sea mayor a la fecha check out
-function isEmpty(obj) {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key))
-            return false;
-    }
-    return true;
+function clickNoTienesCuenta(){
+    $('#crearCuentaModal').modal('show');
+    $('#iniciarSesionModal').modal('hide');
 }
+
+// FIXME checar que la fecha checkin no sea mayor a la fecha check out

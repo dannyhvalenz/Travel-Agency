@@ -137,3 +137,4 @@ function verificar() {
             window.localStorage.removeItem('token');
         });
 }
+

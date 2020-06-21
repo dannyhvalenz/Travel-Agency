@@ -439,7 +439,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-white" style="background-color: #242636;">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i> Iniciar Sesión</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user"></i> Iniciar Sesión</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -457,6 +457,10 @@
                             <label for="passwordLogin" class="col-form-label">Contraseña</label>
                             <input type="password" class="form-control" id="passwordLogin">
                         </div>
+                        <div class="text-center">
+                            <a class="small">¿No tienes cuenta? </a><a class="small text-primary" onclick="clickNoTienesCuenta()" style="cursor: pointer;">Registrate</a>
+                        </div>
+                        
                     </form>
                     <div class="d-flex justify-content-center text-dark p-3">
                         <div id="spinnerLoadingLogin" class="spinner-border" role="status">
@@ -475,7 +479,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-white" style="background-color: #242636;">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i> Iniciar Sesión</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-open"></i> Crear Cuenta</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -540,6 +544,62 @@
         </div>
     </div>
 
+    <div class="modal fade" id="successReservacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white bg-success">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i>Reservacion Exitosa</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <p class="h5">Se registro correctamente la reservación</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" style="background-color: #242636;" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="errorReservacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white bg-danger">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i>Error</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <p class="h5">No se pudo registrar la reservación</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" style="background-color: #242636;" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="iniciarParaReservarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: #242636;">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-error"></i>Por favor inicia sesión</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <p class="h5">Debes iniciar sesión para hacer una reservación</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" style="background-color: #242636;" data-dismiss="modal" onclick="$('#iniciarSesionModal').modal('show')"><i class="fas fa-door-open" ></i> Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
