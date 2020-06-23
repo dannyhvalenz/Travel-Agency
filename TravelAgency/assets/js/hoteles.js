@@ -413,6 +413,75 @@ function reservar() {
     var ciudad = document.getElementById("ciudadReservacion").value;
     // FIXME checar si esta loggeado el cliente
     if (ciudad == "CDMX") {
+        var llegada = $("#fechaLlegadaReservacion").val();
+        var fechaLlegada = llegada.split("/").reverse().join('-');
+        var salida = $("#fechaSalidaReservacion").val();
+        var fechaSalida = salida.split("/").reverse().join('-');
+        
+        var cliente = usuario.email;
+        var nombre = usuario.nombre;
+        nombre = nombre.split('/');
+        axios.get(URL_HOTEL_MX + 'cliente/' + cliente).then((response) => {
+            console.log(response.data);
+            if(response.data.mensaje == "usuario existe"){
+                var reservacion = {
+                    Usuario: cliente,
+                    tipoHabitacion: $('#tipoHabitacionTicket').text(),
+                    fechaLlegada: fechaLlegada,
+                    fechaSalida: fechaSalida,
+                    personas: parseInt($('#huespedesTicket').text(), 10),
+                    precio: parseInt($('#precioTicket').text(), 10),
+                }
+                console.log("ya existe usuario");
+                console.log(reservacion);
+                realizarReservacionMEX(reservacion);
+            } else {
+                console.log("crear usuario");
+                new Vue({
+                    created: function() {
+                        this.recuperarPost();
+                    },
+                    data: {
+                        cliente: []
+                    },
+                    methods: {
+                        recuperarPost: function() {
+                            var nombre = usuario.nombre;
+                            nombre = nombre.split('/');
+                            var apellido = nombre[1];
+                            nombre = nombre[0];
+                            var correo = usuario.email;
+                            let json = JSON.stringify({ nombre, apellido, correo});
+                            console.log(json);
+                            this.$http.post('providers/hotel-mex-soap.php', { metodo: 0, json: json }).then(function(respuesta) {
+                                this.cliente = respuesta.data;
+                                if (this.cliente.respuesta == "exito"){
+                                    axios.get(URL_HOTEL_NYC + 'cliente/last').then((response) => {
+                                        var reservacion = {
+                                            Usuario: usuario.email,
+                                            tipoHabitacion: $('#tipoHabitacionTicket').text(),
+                                            fechaLlegada: fechaLlegada,
+                                            fechaSalida: fechaSalida,
+                                            personas: parseInt($('#huespedesTicket').text(), 10),
+                                            precio: parseInt($('#precioTicket').text(), 10),
+                                        }
+                                        console.log(reservacion);
+                                        realizarReservacionMEX(reservacion);
+                                    }).catch((error) => {
+                                        console.log(error);
+                                        $('#modalReservacion').modal('hide');
+                                        $('#errorReservacionModal').modal('show');
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            
+        }).catch((error) => {
+            console.log(error);
+        });
 
     } else if (ciudad == "NYC") {
         var llegada = $("#fechaLlegadaReservacion").val();
@@ -495,6 +564,18 @@ function reservar() {
 function realizarReservacionNYC(reservacion) {
     console.log('reservar');
     axios.post(URL_HOTEL_NYC + 'reservacion', reservacion).then((response) => {
+        $('#modalReservacion').modal('hide');
+        $('#successReservacionModal').modal('show');
+    }).catch((error) => {
+        console.log(error);
+        $('#modalReservacion').modal('hide');
+        $('#errorReservacionModal').modal('show');
+    });
+}
+
+function realizarReservacionMEX(reservacion){
+    console.log('reservar');
+    axios.post(URL_HOTEL_MX + 'reservacion/', reservacion).then((response) => {
         $('#modalReservacion').modal('hide');
         $('#successReservacionModal').modal('show');
     }).catch((error) => {
