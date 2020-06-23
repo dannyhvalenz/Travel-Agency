@@ -80,13 +80,16 @@ $(document).ready(function() {
             $('#checkOut').datepicker('setDate', new Date($('#checkOut').datepicker('getDate')).valueOf() + +1000 * 3600 * 24);
         }
     });
-    document.getElementById("checkIn").setAttribute("min", new Date());
-    document.getElementById("checkOut").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
-    document.getElementById("checkIn0").setAttribute("min", new Date());
-    document.getElementById("checkOut0").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
+    var url = document.title;
+    if (url === 'Travel Agency | Hoteles') {
+        document.getElementById("checkIn").setAttribute("min", new Date());
+        document.getElementById("checkOut").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
+        document.getElementById("checkIn0").setAttribute("min", new Date());
+        document.getElementById("checkOut0").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
 
-    document.getElementById("fechaLlegadaReservacion").setAttribute("min", new Date());
-    document.getElementById("fechaSalidaReservacion").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
+        document.getElementById("fechaLlegadaReservacion").setAttribute("min", new Date());
+        document.getElementById("fechaSalidaReservacion").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
+    }
     verificar();
 
 });
@@ -138,3 +141,7 @@ function verificar() {
         });
 }
 
+function clickNoTienesCuenta() {
+    $('#crearCuentaModal').modal('show');
+    $('#iniciarSesionModal').modal('hide');
+}

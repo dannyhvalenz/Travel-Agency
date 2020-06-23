@@ -2,15 +2,15 @@
 var caract = new RegExp(/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/);
 
 //Referencias
-var email = $('#emailLogin');
-var password = $('#passwordLogin');
-var alertaLogin = $('#alertaLogin');
 var messageLogin = $('#messageLogin');
+var alertaLogin = $('#alertaLogin');
 var spinner = $('#spinnerLoadingLogin');
 alertaLogin.hide();
 spinner.hide();
 
 let login = () => {
+    let email = $('#emailLogin');
+    let password = $('#passwordLogin');
 
     if (email.val().length == 0 || password.val().length == 0) {
         (alertaLogin.is(':hidden')) ? alertaLogin.show(200): null;
@@ -37,7 +37,7 @@ let login = () => {
 
             })
             .catch((error) => {
-                spinnerLoadingLogin.hide(200);
+                spinner.hide(200);
                 console.log(error);
                 (alertaLogin.is(':hidden')) ? alertaLogin.show(200): null;
                 messageLogin.html('').prepend(error.response.data.err.message);
