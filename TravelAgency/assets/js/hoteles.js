@@ -1,5 +1,6 @@
 let precio;
 let cliente;
+var hotelL="";
 function consultarHotelesInicio(){
     
     var ciudad = document.getElementById("ciudadInicio").value;
@@ -13,6 +14,7 @@ function consultarHotelesInicio(){
     if (ciudad == "CDMX"){
         document.getElementById("ciudad").selectedIndex = 0;
         actualizarSelectTipoHabitacion(ciudad);
+        recuperarHotelMEX(null);
     } else if (ciudad == "NYC" ){
         document.getElementById("ciudad").selectedIndex = 1;
         actualizarSelectTipoHabitacion(ciudad);
@@ -90,6 +92,7 @@ function scroll(){
 }
 
 function recuperarHotelNYC(tipoHabitacion){
+    this.hotelL = "NYC";
     new Vue({
         el:"#tablaResultados",
         created: function(){
@@ -108,6 +111,100 @@ function recuperarHotelNYC(tipoHabitacion){
                         var doble = respuesta.data.Doble;
                         var junior = respuesta.data.Junior;
                         var suite = respuesta.data.Suite;
+                        
+                        if (tipoHabitacion == null){
+                            if(sencilla > 0){
+                                crearTarjetaHabitacion("Sencilla", sencilla);
+                            }
+                            if (doble > 0){
+                                crearTarjetaHabitacion("Doble", doble);
+                            }
+                            if (junior > 0){
+                                crearTarjetaHabitacion("Junior", junior);
+                            }
+                            if (suite > 0){
+                                crearTarjetaHabitacion("Suite", suite);
+                            }
+                        } else if (tipoHabitacion == "Todas"){
+                            var numHuespedes = document.getElementById("huespedes0").value;
+                            if (numHuespedes <= 2){
+                                if(sencilla > 0){
+                                    crearTarjetaHabitacion("Sencilla", sencilla);
+                                }
+                                if (doble > 0){
+                                    crearTarjetaHabitacion("Doble", doble);
+                                }
+                                if (junior > 0){
+                                    crearTarjetaHabitacion("Junior", junior);
+                                }
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } else if (numHuespedes <= 4){
+                                if (doble > 0){
+                                    crearTarjetaHabitacion("Doble", doble);
+                                }
+                                if (junior > 0){
+                                    crearTarjetaHabitacion("Junior", junior);
+                                }
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } else if (numHuespedes <= 6){
+                                if (junior > 0){
+                                    crearTarjetaHabitacion("Junior", junior);
+                                }
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } else if (numHuespedes <= 8){
+                                if (suite > 0){
+                                    crearTarjetaHabitacion("Suite", suite);
+                                }
+                            } 
+                        } else {
+
+                            if(tipoHabitacion == "Sencilla" && sencilla > 0){
+                                crearTarjetaHabitacion2("Sencilla", sencilla);
+                            }
+                            if (tipoHabitacion == "Doble" && doble > 0){
+                                crearTarjetaHabitacion2("Doble", doble);
+                            }
+                            if (tipoHabitacion == "Junior" && junior > 0){
+                                crearTarjetaHabitacion2("Junior", junior);
+                            }
+                            if (tipoHabitacion == "Suite" && suite > 0){
+                                crearTarjetaHabitacion2("Suite", suite);
+                            }
+                        }
+                    }).catch((error) =>{
+                        console.log(error);
+                    })
+            }
+        }
+    });
+}
+
+function recuperarHotelMEX(tipoHabitacion){
+    this.hotelL = "MEX";
+    new Vue({
+        el:"#tablaResultados",
+        created: function(){
+            this.recuperarHabitacionesMex();
+        },
+        data:{
+            habitaciones : []
+        },
+        methods:{
+            recuperarHabitacionesMex:function(){
+                
+                this.$http.get(URL_HOTEL_MX)
+                    .then(function(respuesta){
+                        document.getElementById("tablaResultados").innerHTML = "";
+                        var sencilla = "4";
+                        var doble = "4";
+                        var junior = "2";
+                        var suite = "2";
                         
                         if (tipoHabitacion == null){
                             if(sencilla > 0){
@@ -221,8 +318,10 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
     //btnReservar.addEventListener("click", cargarTicket(this.name));
     btnReservar.onclick = function(){cargarTicket(this.name)};
     cardBody.appendChild(btnReservar);
-    obtenerPrecio2(tipoHabitacion);
-    switch(tipoHabitacion){
+
+    if(this.hotelL=="NYC"){
+     obtenerPrecio2(tipoHabitacion);
+     switch(tipoHabitacion){
         case "Sencilla":
             img.src = "https://www.fourseasons.com/alt/img-opt/~70.1530.0,0000-156,2282-3000,0000-1687,4999/publish/content/dam/fourseasons/images/web/NYF/NYF_1357_original.jpg";
             //img.src = "https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg";
@@ -247,6 +346,37 @@ function crearTarjetaHabitacion(tipoHabitacion, numDisponibles){
             p.innerText = "4 Cama King Size \n 8 Personas máximo\n Costo por noche: $2400\n Precio:$"+ precio +"\nDisponibles: " + numDisponibles;
             break;
     }
+    }else{
+     obtenerPrecioMex2(tipoHabitacion);
+     switch(tipoHabitacion){
+        case "Sencilla":
+            //img.src = "https://www.fourseasons.com/alt/img-opt/~70.1530.0,0000-156,2282-3000,0000-1687,4999/publish/content/dam/fourseasons/images/web/NYF/NYF_1357_original.jpg";
+            img.src = "https://cms.posadas.com/posadas/Brands/ONE/Region/Mexico/Hotels/OGC/Catalogs/Media/OGC/800X600/handicapped_room800x600.jpg";
+            h5.innerText = "Habitación Sencilla";
+            p.innerText = "1 Cama King Size \n 2 Personas máximo \n Costo por noche: $700\nPrecio:$"+ precio +"\nDisponibles: " + numDisponibles;
+            break;
+        case "Doble":
+            //img.src = "https://www.fourseasons.com/alt/img-opt/~70.1530.0,0000-265,1912-3000,0000-1687,4999/publish/content/dam/fourseasons/images/web/NYF/NYF_1389_original.jpg";
+            img.src = "https://cms.posadas.com/posadas/Brands/ONE/Region/Mexico/Hotels/OGC/Catalogs/Media/OGC/800X600/standard_room_2double.jpg";
+            h5.innerText = "Habitación Doble";
+            p.innerText = "2 Cama King Size \n 4 Personas máximo\n Costo por noche: $1100\n Precio:$"+ precio +"\nDisponibles: " + numDisponibles;
+            break;
+        case "Junior":
+            img.src = "https://media-cdn.tripadvisor.com/media/photo-s/0c/3f/69/0d/habitacion-junior-suite.jpg";
+            //img.src = "https://www.fourseasons.com/content/dam/fourseasons/images/web/NYF/NYF_1376_aspect16x9.jpg/jcr:content/renditions/cq5dam.web.468.263.jpeg";
+            h5.innerText = "Habitación Junior";
+            p.innerText = "3 Cama King Size \n 6 Personas máximo \n Costo por noche: $1500\n Precio:$"+ precio +"\nDisponibles: " + numDisponibles;
+            break;
+        case "Suite":
+            img.src = "https://pix6.agoda.net/hotelImages/49004/-1/20a1bcb58c64f4980ae26c7380535fbe.jpg?s=1024x768";
+            h5.innerText = "Habitación Suite";
+            p.innerText = "4 Cama King Size \n 8 Personas máximo\n Costo por noche: $2000\n Precio:$"+ precio +"\nDisponibles: " + numDisponibles;
+            break;
+    }  
+    }
+    //obtenerPrecio2(tipoHabitacion);
+    
+
     
 }
 
@@ -397,7 +527,12 @@ function cargarTicket(tipoH){
         document.getElementById("huespedesTicket").innerText = "";
         document.getElementById("huespedesTicket").innerText = huespedes;
     
-        obtenerPrecio();
+        if(this.hotelL=="NYC"){
+            obtenerPrecio();
+           }else{
+            obtenerPrecioMex();  
+           }
+        //obtenerPrecio();
         $('#modalReservacion').modal('show');
     } else {
         //$('#modalReservacion').modal('hide');
@@ -422,7 +557,13 @@ function actualizarDatos(){
     document.getElementById("huespedesTicket").innerText = "";
     document.getElementById("huespedesTicket").innerText = huespedes;
     
-    obtenerPrecio();
+    
+    if(this.hotelL=="NYC"){
+        obtenerPrecio();
+       }else{
+        obtenerPrecioMex();  
+       }
+    //obtenerPrecio();
 }
 
 function obtenerPrecio2(tipo){
@@ -525,11 +666,112 @@ function obtenerPrecio(){
     }
 }
 
+function obtenerPrecioMex2(tipo){
+    var llegada = $("#checkIn0").val();
+    var fechaLlegada = llegada.split("/");
+    var salida = $("#checkOut0").val();
+    var fechaSalida = salida.split("/");
+
+    llegada = new Date(fechaLlegada[2],fechaLlegada[1], fechaLlegada[0]);
+    salida = new Date(fechaSalida[2], fechaSalida[1],fechaSalida[0]);
+    
+    var diferenciaTiempo = Math.abs(salida.getTime() - llegada.getTime());
+    let milisegundosEnDia = (1000 * 3600 * 24);
+
+    let diferenciaDias = Math.ceil(diferenciaTiempo / milisegundosEnDia);
+
+    switch(tipo){
+        case "Sencilla":
+            if (diferenciaDias <= 1){
+                precio = 700;
+            } else {
+                precio = 700 * diferenciaDias;
+            }
+            break;
+        case "Doble":
+            if (diferenciaDias <= 1){
+                precio = 1100;
+            } else {
+                precio = 1100 * diferenciaDias;
+            }
+            break;
+        case "Junior":
+            if (diferenciaDias <= 1){
+                precio = 1500;
+            } else {
+                precio = 1500 * diferenciaDias;
+            }
+            break;
+        case "Suite":
+            if (diferenciaDias <= 1){
+                precio = 2000;
+            } else {
+                precio = 2000 * diferenciaDias;
+            }
+            break;
+    }
+}
+
+function obtenerPrecioMex(){
+
+    var tipo = document.getElementById("tipoHabitacionReservacion").value;
+    var llegada = $("#fechaLlegadaReservacion").val();
+    var fechaLlegada = llegada.split("/");
+    var salida = $("#fechaSalidaReservacion").val();
+    var fechaSalida = salida.split("/");
+
+    llegada = new Date(fechaLlegada[2],fechaLlegada[1], fechaLlegada[0]);
+    salida = new Date(fechaSalida[2], fechaSalida[1],fechaSalida[0]);
+
+    var diferenciaTiempo = Math.abs(salida.getTime() - llegada.getTime());
+    let milisegundosEnDia = (1000 * 3600 * 24);
+
+    let diferenciaDias = Math.ceil(diferenciaTiempo / milisegundosEnDia);
+    
+    let total = 0;
+    document.getElementById("precioTicket").innerText = "";
+    switch(tipo){
+        case "Sencilla":
+            if (diferenciaDias <= 1){
+                document.getElementById("precioTicket").innerText = 700;
+            } else {
+                total = 700 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
+            }
+            break;
+        case "Doble":
+            if (diferenciaDias <= 1){
+                document.getElementById("precioTicket").innerText = 1100;
+            } else {
+                total = 1100 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
+            }
+            break;
+        case "Junior":
+            if (diferenciaDias <= 1){
+                document.getElementById("precioTicket").innerText = 1500;
+            } else {
+                total = 1500 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
+            }
+            break;
+        case "Suite":
+            if (diferenciaDias <= 1){
+                document.getElementById("precioTicket").innerText = 2000;
+            } else {
+                total = 2000 * diferenciaDias;
+                document.getElementById("precioTicket").innerText = total;
+            }
+            break;
+    }
+}
+
 function aplicarFiltros(){
     var ciudad = document.getElementById("ciudad").value;
 
     if (ciudad == "CDMX"){
         actualizarSelectTipoHabitacion(ciudad);
+        recuperarHotelMEX(tipoHabitacion);
     } else if (ciudad == "NYC" ){
         // FIXME se cambia el tipo de habitacion al picar aplicar filtros
         var tipoHabitacion = document.getElementById("tipoHabitacion").value;
