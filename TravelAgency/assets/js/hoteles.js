@@ -421,7 +421,7 @@ function reservar() {
         var cliente = usuario.email;
         var nombre = usuario.nombre;
         nombre = nombre.split('/');
-        axios.get(URL_HOTEL_MX + 'cliente/' + cliente).then((response) => {
+        axios.get(URL_HOTEL_MX + 'clientes/' + cliente).then((response) => {
             console.log(response.data);
             if(response.data.mensaje == "usuario existe"){
                 var reservacion = {
@@ -575,7 +575,7 @@ function realizarReservacionNYC(reservacion) {
 
 function realizarReservacionMEX(reservacion){
     console.log('reservar');
-    axios.post(URL_HOTEL_MX + 'reservacion/', reservacion).then((response) => {
+    axios.post(URL_HOTEL_MX + 'reservaciones', reservacion).then((response) => {
         $('#modalReservacion').modal('hide');
         $('#successReservacionModal').modal('show');
     }).catch((error) => {
