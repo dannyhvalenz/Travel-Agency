@@ -148,154 +148,155 @@
     <div id="resultados" style="margin-top: 15%; margin-bottom: 10%;"></div>
 
 
-    
+
 
     <section id="resultadosSection" style=" margin-bottom: 5%;">
         <div class="container-fluid">
-            
+
             <!--Begin Reservacion Modal-->
-            <div class="modal fade" id="modalReservacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" > <!--style="position: absolute; top: 150vh;"-->
+            <div class="modal fade" id="modalReservacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <!--style="position: absolute; top: 150vh;"-->
                 <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-white" style="background-color: #242636;">
-                        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-ticket-alt"></i>    Datos de la reservación</h5>
-                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <div class="modal-content">
+                        <div class="modal-header text-white" style="background-color: #242636;">
+                            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-ticket-alt"></i> Datos de la reservación</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </div>
-                    <div class="modal-body container">
-                        <!--Ciudad-->
-                        <div class="row">
-                            <!--Begin Filtros de reservacion-->
-                            <div class="col">
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label class="small mb-1" for="ciudadReservacion">Ciudad</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1" style="border:none">
+                        </div>
+                        <div class="modal-body container">
+                            <!--Ciudad-->
+                            <div class="row">
+                                <!--Begin Filtros de reservacion-->
+                                <div class="col">
+                                    <div class="col-sm">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="ciudadReservacion">Ciudad</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1" style="border:none">
                                                     <i class="fas fa-hotel prefix grey-text"></i>
                                                 </span>
-                                            </div>
-                                            <select class="form-control text-center" id="ciudadReservacion" name="ciudadReservacion" required>
+                                                </div>
+                                                <select class="form-control text-center" id="ciudadReservacion" name="ciudadReservacion" required>
                                                 <option value="CDMX">Ciudad de México, México</option>
                                                 <option value="NYC">New York, Estados Unidos</option>
                                             </select>
+                                            </div>
+
+                                            <label class="small" id="mensaje-ciudadReservacion" data-error="wrong" data-success="right" for="ciudadReservacion" hidden>Mensaje ciudad Reservacion</label>
                                         </div>
-                                        
-                                        <label class="small" id="mensaje-ciudadReservacion" data-error="wrong" data-success="right" for="ciudadReservacion" hidden>Mensaje ciudad Reservacion</label>
-                                    </div>
-                                    <!--Fin ciudad-->
-                                    <!--Fecha Llegada-->
-                                    <div class="form-group">
-                                        <label class="small mb-1" for="fechaLlegadaReservacion">Fecha de Llegada</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1" style="border:none">
+                                        <!--Fin ciudad-->
+                                        <!--Fecha Llegada-->
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="fechaLlegadaReservacion">Fecha de Llegada</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1" style="border:none">
                                                     <i class="fas fa-calendar prefix grey-text"></i>
                                                 </span>
+                                                </div>
+                                                <input id="fechaLlegadaReservacion" placeholder="dd / mm / aaaa" class="form-control text-center" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" onchange="actualizarDatos()">
                                             </div>
-                                            <input id="fechaLlegadaReservacion" placeholder="dd / mm / aaaa" class="form-control text-center" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" onchange="actualizarDatos()">
+                                            <label class="small" id="mensaje-fechaLlegadaReservacion" data-error="wrong" data-success="right" for="fechaLlegadaReservacion" hidden>Mensaje fecha salida</label>
                                         </div>
-                                        <label class="small" id="mensaje-fechaLlegadaReservacion" data-error="wrong" data-success="right" for="fechaLlegadaReservacion" hidden>Mensaje fecha salida</label>
+                                        <!--Fin fecha llegada-->
                                     </div>
-                                    <!--Fin fecha llegada-->
-                                </div>
-                            
-                                <div class="col-sm">
-                                    <!--Fecha Salida-->
-                                    <div class="form-group">
-                                        <label class="small mb-1" for="fechaSalidaReservacion">Fecha de Salida</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1" style="border:none">
+
+                                    <div class="col-sm">
+                                        <!--Fecha Salida-->
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="fechaSalidaReservacion">Fecha de Salida</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1" style="border:none">
                                                     <i class="fas fa-calendar prefix grey-text"></i>
                                                 </span>
+                                                </div>
+                                                <input id="fechaSalidaReservacion" placeholder="dd / mm / aaaa" class="form-control text-center" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" onchange="actualizarDatos()">
                                             </div>
-                                            <input id="fechaSalidaReservacion" placeholder="dd / mm / aaaa" class="form-control text-center" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" onchange="actualizarDatos()">
+                                            <label class="small" id="mensaje-fechaSalidaReservacion" data-error="wrong" data-success="right" for="fechaSalidaReservacion" hidden>Mensaje fecha salida</label>
                                         </div>
-                                        <label class="small" id="mensaje-fechaSalidaReservacion" data-error="wrong" data-success="right" for="fechaSalidaReservacion" hidden>Mensaje fecha salida</label>
-                                    </div>
-                                    <!--Fin fecha Salida-->
-                                    <!--Huespedes-->
-                                    <div class="form-group">
-                                        <label class="small mb-1" for="huespedesReservacion">Huéspedes</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1" style="border:none">
+                                        <!--Fin fecha Salida-->
+                                        <!--Huespedes-->
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="huespedesReservacion">Huéspedes</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1" style="border:none">
                                                     <i class="fas fa-users prefix grey-text"></i>
                                                 </span>
+                                                </div>
+                                                <input type="number" min="1" max="8" id="huespedesReservacion" class="form-control validate">
                                             </div>
-                                            <input type="number" min="1" max="8" id="huespedesReservacion" class="form-control validate">
+                                            <label class="small" id="mensaje-huespedesReservacion" data-error="wrong" data-success="right" for="huespedesReservacion" hidden>Mensaje huespedes</label>
                                         </div>
-                                        <label class="small" id="mensaje-huespedesReservacion" data-error="wrong" data-success="right" for="huespedesReservacion" hidden>Mensaje huespedes</label>
-                                    </div>
-                                    <!--Fin huespedes-->
-                                    <!--Tipo Habitacion-->
-                                    <div class="form-group">
-                                        <label class="small mb-1" for="tipoHabitacionReservacion">Tipo de Habitación</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1" style="border:none">
+                                        <!--Fin huespedes-->
+                                        <!--Tipo Habitacion-->
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="tipoHabitacionReservacion">Tipo de Habitación</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1" style="border:none">
                                                     <i class="fas fa-bed prefix grey-text"></i>
                                                 </span>
-                                            </div>
-                                            <select class="form-control text-center" id="tipoHabitacionReservacion" name="tipoHabitacionReservacion" required  onchange="actualizarDatos()">
+                                                </div>
+                                                <select class="form-control text-center" id="tipoHabitacionReservacion" name="tipoHabitacionReservacion" required onchange="actualizarDatos()">
                                                 <option value="Sencilla" selected>Sencilla</option>
                                                 <option value="Doble">Doble</option>
                                                 <option value="Junior">Junior</option>
                                                 <option value="Suite">Suite</option>
                                             </select>
+                                            </div>
+                                            <label class="small" id="mensaje-tipoHabitacionReservacion" data-error="wrong" data-success="right" for="tipoHabitacionReservacion" hidden>Mensaje tipo de habitación</label>
                                         </div>
-                                        <label class="small" id="mensaje-tipoHabitacionReservacion" data-error="wrong" data-success="right" for="tipoHabitacionReservacion" hidden >Mensaje tipo de habitación</label>
+                                        <!--Fin tipo habitacion-->
+
                                     </div>
-                                    <!--Fin tipo habitacion-->
-                                        
+
                                 </div>
-                                
+                                <!--End Filtros de reservacion-->
+                                <div class="vl" style="border-left: 1px solid #dee2e6; height: 410px;"></div>
+                                <!--Begin Ticket-->
+                                <div class="col">
+                                    <h5 class="text-center">Ticket</h5>
+                                    <hr>
+                                    <div class="form-group">
+                                        <label class="mb-1" for="checkInTicket"><b>Check In:</b></label>
+                                        <label class="mb-1" id="checkInTicket">Fecha</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="mb-1" for="checkOutTicket"><b>Check Out:</b></label>
+                                        <label class="mb-1" id="checkOutTicket">Fecha</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="mb-1" for="tipoHabitacionTicket"><b>Tipo de Habitación:</b></label>
+                                        <label class="mb-1" id="tipoHabitacionTicket">Tipo de Habitación</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="mb-1" for="huespedesTicket"><b>Huéspedes:</b></label>
+                                        <label class="mb-1" id="huespedesTicket">Huespedes</label>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group text-right">
+                                        <label class="mb-1" for="precioTicket"><b>Total:</b>$</label>
+                                        <label class="mb-1" id="precioTicket">Precio</label>
+                                    </div>
+                                </div>
+                                <!--End Ticket-->
                             </div>
-                            <!--End Filtros de reservacion-->
-                            <div class="vl" style="border-left: 1px solid #dee2e6; height: 410px;"></div>
-                            <!--Begin Ticket-->
-                            <div class="col" >
-                                <h5 class="text-center">Ticket</h5>
-                                <hr>
-                                <div class="form-group">
-                                    <label class="mb-1" for="checkInTicket"><b>Check In:</b></label>
-                                    <label class="mb-1" id="checkInTicket">Fecha</label>
-                                </div>
-                                <div class="form-group">
-                                    <label class="mb-1" for="checkOutTicket"><b>Check Out:</b></label>
-                                    <label class="mb-1" id="checkOutTicket">Fecha</label>
-                                </div>
-                                <div class="form-group">
-                                    <label class="mb-1" for="tipoHabitacionTicket"><b>Tipo de Habitación:</b></label>
-                                    <label class="mb-1" id="tipoHabitacionTicket">Tipo de Habitación</label>
-                                </div>
-                                <div class="form-group">
-                                    <label class="mb-1" for="huespedesTicket"><b>Huéspedes:</b></label>
-                                    <label class="mb-1" id="huespedesTicket">Huespedes</label>
-                                </div>
-                                <hr>
-                                <div class="form-group text-right">
-                                    <label class="mb-1" for="precioTicket"><b>Total:</b>$</label>
-                                    <label class="mb-1" id="precioTicket">Precio</label>
-                                </div>
-                            </div>
-                            <!--End Ticket-->
+                        </div>
+                        <div class="modal-footer">
+                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>-->
+                            <button type="button" class="btn btn-primary" style="background-color: #242636;" onclick="reservar()">Reservar</button>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>-->
-                    <button type="button" class="btn btn-primary" style="background-color: #242636;" onclick="reservar()">Reservar</button>
-                    </div>
-                </div>
                 </div>
             </div>
 
 
 
-            
+
             <!--End Reservacion Modal-->
 
             <div class="row">
@@ -310,7 +311,7 @@
                                         <option value="NYC">New York, Estados Unidos</option>
                                       </select>
                                 </div>
-                                
+
                             </div>
 
 
@@ -350,7 +351,7 @@
                                     <select id="tipoHabitacion" class="form-control text-center" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
                                         
                                     </select>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -368,12 +369,12 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <h2>Resultados</h2>
-                                
+
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <h5 id = "errorResultados" hidden>No se encontraron resultados con esos filtros. Intenta con una habitación más grande.</h5>
+                                <h5 id="errorResultados" hidden>No se encontraron resultados con esos filtros. Intenta con una habitación más grande.</h5>
                                 <div id="tablaResultados"></div>
 
                             </div>
@@ -460,7 +461,7 @@
                         <div class="text-center">
                             <a class="small">¿No tienes cuenta? </a><a class="small text-primary" onclick="clickNoTienesCuenta()" style="cursor: pointer;">Registrate</a>
                         </div>
-                        
+
                     </form>
                     <div class="d-flex justify-content-center text-dark p-3">
                         <div id="spinnerLoadingLogin" class="spinner-border" role="status">
@@ -547,7 +548,7 @@
     <div class="modal fade" id="successReservacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header text-white bg-success">
+                <div class="modal-header text-white" style="background-color: #007E33;">
                     <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-closed"></i>Reservacion Exitosa</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -558,6 +559,7 @@
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
                     <button type="button" class="btn btn-primary" style="background-color: #242636;" data-dismiss="modal">Aceptar</button>
+                    <button onclick="location.href='vuelos.html'" type="button" class="btn btn-info" data-dismiss="modal"> <i class="fas fa-plane"></i> Buscas un Vuelo ? </button>
                 </div>
             </div>
         </div>

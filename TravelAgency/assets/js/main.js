@@ -1,5 +1,6 @@
 var usuario;
 $(document).ready(function() {
+
     $('#userAccount').hide();
     $('#resultadosSection').hide();
 
@@ -62,7 +63,7 @@ $(document).ready(function() {
         todayHighlight: true,
         startDate: new Date(),
     });
-
+    $('#datepicker').datepicker('setDate', new Date());
     $('#checkIn').datepicker('setDate', new Date());
     $('#checkOut').datepicker('setDate', new Date((new Date()).valueOf() + 1000 * 3600 * 24));
     $("#buscarHotelBtn").on("click", function() {
@@ -82,6 +83,8 @@ $(document).ready(function() {
     });
     var url = document.title;
     if (url === 'Travel Agency | Hoteles') {
+
+
         document.getElementById("checkIn").setAttribute("min", new Date());
         document.getElementById("checkOut").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
         document.getElementById("checkIn0").setAttribute("min", new Date());
@@ -89,6 +92,14 @@ $(document).ready(function() {
 
         document.getElementById("fechaLlegadaReservacion").setAttribute("min", new Date());
         document.getElementById("fechaSalidaReservacion").setAttribute("min", new Date((new Date()).valueOf() + 1000 * 3600 * 24));
+
+        if (window.localStorage.getItem('destino')) {
+            consultarHotelesInicio();
+        }
+    } else {
+        if (window.localStorage.getItem('destino')) {
+            vuelos();
+        }
     }
     verificar();
 
@@ -132,14 +143,21 @@ function verificar() {
             $('#iniciarSesionButton').hide();
             $('#userAccount').show(100);
             usuario = response.data;
-            var nombre = response.data.nombre.split('/');
-            $('#userName').prepend(nombre[0]);
+            let slash = response.data.nombre.indexOf('/');
+            if (slash != -1) {
+                var nombre = response.data.nombre.split('/');
+            } else {
+                var nombre = response.data.nombre.split(' ');
+            }
+            $('#userName').html('').prepend(nombre[0]);
         })
         .catch((error) => {
             $('#accountBtn').hide();
             window.localStorage.removeItem('token');
         });
 }
+
+
 
 function clickNoTienesCuenta() {
     $('#crearCuentaModal').modal('show');

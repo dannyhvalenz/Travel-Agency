@@ -24,6 +24,7 @@
 
 
 </head>
+<!-- class="stop-scrolling" -->
 
 <body class="stop-scrolling">
     <video autoplay="autoplay" loop="loop" id="video_background" preload="auto" volume="50" />
@@ -183,7 +184,7 @@
             <h2>Vuelos Disponibles</h2>
         </div>
         <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action " v-for="item in vuelos.data">
+            <a v-on:click="asientos(item.idVuelo)" class="list-group-item list-group-item-action " v-for="item in vuelos.data">
 
                 <div class=" container ">
 
@@ -221,12 +222,71 @@
         </div>
     </section>
 
+    <section id="asientosSection" class=" m-3 animate__animated animate__fadeIn ">
+
+        <div style="margin-top: 5%;">
+
+        </div>
+
+        <div id="asientosView" v-if="showModal" class="container px-lg-5">
+            <div class="row mx-lg-n5 row-cols-2 text-center">
+                <div class="col py-3 px-lg-5 border bg-white" v-for="asiento in asientos.data">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>{{asiento.codigo}}</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <i class="fas fa-couch fa-10x"></i>
+                            </div>
+                        </div>
+                        <div class="row" v-if="asiento.status==='Ocupado' ">
+                            <div class="col-sm-12">
+                                <i class="fas fa-circle text-danger"></i> <span class="col h4">Ocupado</span>
+                            </div>
+                            <div class="col-sm-12 p-3">
+                                <button class="btn btn-outline-danger" disabled> <i class="fas fa-shopping-cart"></i> <span class="col">Comprar</span></button >
+                            </div>
+
+                        </div>
+                        <div v-else>
+                            <div class="col-sm-12">
+                                <i class="fas fa-circle text-success"></i> <span class="col h4">Disponible</span>
+                            </div>
+                            <div class="col-sm-12 p-3">
+                                <button v-on:click="selectAsiento(asiento)"  class="btn btn-outline-success" data-toggle="modal" data-target="#modalConfirmar"> <i class="fas fa-shopping-cart"></i> <span class="col">Comprar</span></button>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div v-else class="jumbotron animate__animated animate__fadeIn">
+            <h1 class="display-4">OPSS !!!</h1>
+            <p class="lead">No es posible realizar esta acció por favor inicie sesión para continuar con la compra.</p>
+            <hr class="my-4">
+            <a data-toggle="modal" data-target="#iniciarSesionModal" class="btn btn-primary btn-lg" href="#" role="button">Iniciar sesión</a>
+        </div>
+
+
+
+
+    </section>
+
 
 
 
 
     <!-- footer -->
-    <footer id="footer" class="py-4 text-white-50 " style="background-color: #242636; ">
+    <footer id="footer " class="py-4 text-white-50 " style="background-color: #242636; ">
         <div class="container ">
             <div class="row ">
                 <div class="col-md-4 text-center text-md-left ">
@@ -264,91 +324,91 @@
     <!-- end of footer -->
 
 
-    <div class="modal fade" id="iniciarSesionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-white" style="background-color: #242636;">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user"></i> Iniciar Sesión</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+    <div class="modal fade " id="iniciarSesionModal" tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+        <div class="modal-dialog ">
+            <div class="modal-content ">
+                <div class="modal-header text-white" style="background-color: #242636; ">
+                    <h5 class="modal-title " id="exampleModalLabel "><i class="fas fa-user "></i> Iniciar Sesión</h5>
+                    <button type="button " class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true ">&times;</span>
               </button>
                 </div>
-                <div class="modal-body">
-                    <div id="alertaLogin" class="alert alert-danger" role="alert">
+                <div class="modal-body ">
+                    <div id="alertaLogin" class="alert alert-danger " role="alert ">
                         <h5 id="messageLogin"></h5>
                     </div>
                     <form>
-                        <div class="form-group">
-                            <label for="emailLogin" class="col-form-label">Correo Eléctronico</label>
-                            <input type="text" class="form-control" id="emailLogin">
+                        <div class="form-group ">
+                            <label for="emailLogin" class="col-form-label ">Correo Eléctronico</label>
+                            <input type="text" class="form-control " id="emailLogin">
                         </div>
-                        <div class="form-group">
-                            <label for="passwordLogin" class="col-form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="passwordLogin">
+                        <div class="form-group ">
+                            <label for="passwordLogin" class="col-form-label ">Contraseña</label>
+                            <input type="password" class="form-control " id="passwordLogin">
                         </div>
                         <div class="text-center">
-                            <a class="small">¿No tienes cuenta? </a><a class="small text-primary" onclick="clickNoTienesCuenta()" style="cursor: pointer;">Registrate</a>
+                            <a class="small">¿No tienes cuenta? </a><a class="small text-primary " onclick="clickNoTienesCuenta() " style="cursor: pointer; ">Registrate</a>
                         </div>
 
                     </form>
-                    <div class="d-flex justify-content-center text-dark p-3">
-                        <div id="spinnerLoadingLogin" class="spinner-border" role="status">
+                    <div class="d-flex justify-content-center text-dark p-3 ">
+                        <div id="spinnerLoadingLogin" class="spinner-border " role="status">
                             <span class="sr-only">Loading...</span>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button onclick="login()" type="button" class="btn btn-primary" style="background-color: #242636;"><i class="fas fa-door-open"></i> Iniciar Sesión</button>
+                <div class="modal-footer d-flex justify-content-center ">
+                    <button onclick="login() " type="button " class="btn btn-primary " style="background-color: #242636; "><i class="fas fa-door-open "></i> Iniciar Sesión</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="crearCuentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-white" style="background-color: #242636;">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-door-open"></i> Crear Cuenta</h5>
+    <div class="modal fade " id="crearCuentaModal" tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+        <div class="modal-dialog ">
+            <div class="modal-content ">
+                <div class="modal-header text-white " style="background-color: #242636; ">
+                    <h5 class="modal-title " id="exampleModalLabel "><i class="fas fa-door-open "></i> Crear Cuenta</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true ">&times;</span>
               </button>
                 </div>
-                <div class="modal-body">
-                    <div id="alertaRegister" class="alert alert-danger" role="alert">
+                <div class="modal-body ">
+                    <div id="alertaRegister" class="alert alert-danger " role="alert ">
                         <h5 id="messageAlert"></h5>
                     </div>
                     <form>
-                        <div class="form-group">
-                            <label for="nameRegister" class="col-form-label">Nombre(s)</label>
-                            <input type="text" class="form-control" id="nameRegister">
+                        <div class="form-group ">
+                            <label for="nameRegister" class="col-form-label ">Nombre(s)</label>
+                            <input type="text " class="form-control " id="nameRegister">
                         </div>
-                        <div class="form-group">
-                            <label for="apellidoRegister" class="col-form-label">Apellido(s)</label>
-                            <input type="text" class="form-control" id="apellidoRegister">
+                        <div class="form-group ">
+                            <label for="apellidoRegister" class="col-form-label ">Apellido(s)</label>
+                            <input type="text " class="form-control " id="apellidoRegister">
                         </div>
-                        <div class="form-group">
-                            <label for="emaiRegister" class="col-form-label">Correo Eléctronico</label>
-                            <input type="text" class="form-control" id="emaiRegister">
+                        <div class="form-group ">
+                            <label for="emaiRegister" class="col-form-label ">Correo Eléctronico</label>
+                            <input type="text " class="form-control " id="emaiRegister">
                         </div>
-                        <div class="form-group">
-                            <label for="passwordRegister" class="col-form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="passwordRegister">
+                        <div class="form-group ">
+                            <label for="passwordRegister" class="col-form-label ">Contraseña</label>
+                            <input type="password" class="form-control " id="passwordRegister">
                         </div>
-                        <div class="form-group">
-                            <label for="passwordConfRegister" class="col-form-label">Confirmar Contraseña</label>
-                            <input type="password" class="form-control" id="passwordConfRegister">
+                        <div class="form-group ">
+                            <label for="passwordConfRegister" class="col-form-label ">Confirmar Contraseña</label>
+                            <input type="password" class="form-control " id="passwordConfRegister">
                         </div>
 
                     </form>
-                    <div class="d-flex justify-content-center text-dark p-3">
-                        <div id="spinnerLoadingCreate" class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+                    <div class="d-flex justify-content-center text-dark p-3 ">
+                        <div id="spinnerLoadingCreate" class="spinner-border " role="status">
+                            <span class="sr-only ">Loading...</span>
                         </div>
                     </div>
 
                 </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button onclick="crearCuenta()" type="button" class="btn btn-primary" style="background-color: #242636;"><i class="far fa-user-circle"></i> Crear Cuenta</button>
+                <div class="modal-footer d-flex justify-content-center ">
+                    <button onclick="crearCuenta() " type="button " class="btn btn-primary " style="background-color: #242636; "><i class="far fa-user-circle "></i> Crear Cuenta</button>
                 </div>
             </div>
         </div>
@@ -368,6 +428,138 @@
                 </div>
                 <div class="modal-footer d-flex justify-content-center ">
                     <button type="button " class="btn btn-primary " style="background-color: #242636; " data-dismiss="modal " onclick="$( '#iniciarSesionModal').modal( 'show') "><i class="fas fa-door-open " ></i> Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade " id="modalLoginMessage" data-backdrop="static " data-keyboard="false " tabindex="-1 " role="dialog " aria-labelledby="staticBackdropLabel " aria-hidden="true ">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content ">
+                <div class="modal-header text-white " style="background-color: #242636; ">
+                    <h5 class="modal-title " id="staticBackdropLabel ">Accede a tus vuelos de iAero favoritos</h5>
+                    <button type="button " class="close " data-dismiss="modal " aria-label="Close ">
+                <span aria-hidden="true ">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body ">
+                    Para poder continuar con el proceso de selección es necesario que inicie sesión en Travel Agency, y seleccione de nuevo su vuelo
+                </div>
+                <div class="modal-footer ">
+                    <button type="button " class="btn btn-secondary " data-dismiss="modal ">Cancelar</button>
+                    <button type="button " class="btn btn-primary " data-dismiss="modal " onclick="$( '#iniciarSesionModal').modal('show') ">Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalLoadingAsientos" data-backdrop="static " data-keyboard="false " tabindex="-1 " role="dialog " aria-labelledby="staticBackdropLabel " aria-hidden="true ">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content rounded-lg " style="background-color: #242636; ">
+                <div class="modal-body text-white text-center m-3 p-3 ">
+                    <h4 class="m-3 "> Buscando asientos
+                        <div class=" display-4 animate__animated animate__flip animate__infinite ">. . .</div>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalConfirmar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: #242636;">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmar compra</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="nombreFormBuy"><i class="fas fa-user prefix grey-text"></i> Nombre</label>
+                        <input type="text" id="nombreFormBuy" class="form-control validate text-capitalize">
+                    </div>
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="emailFormBuy"><i class="fas fa-envelope prefix grey-text"></i> Email</label>
+                        <input type="email" id="emailFormBuy" class="form-control validate">
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <label data-error="wrong" data-success="right" for="phoneFormBuy"><i class="fas fa-phone-alt prefix grey-text"></i> Teléfono</label>
+                        <input type="text" id="phoneFormBuy" class="form-control validate">
+                    </div>
+                    <div class="d-flex justify-content-center text-primary">
+                        <div id="spinnerbuy" class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button onclick="buyTicket()" class="btn btn-outline-success"> <i class="fas fa-check"></i> <span class="col">Realizar Compra</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalBuySuccess" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: #242636;">
+                    <h5 class="modal-title" id="exampleModalLabel">Compra realizada <strong>Feliz Viaje</strong> </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-check fa-4x mb-3 nimate__animated animate__rotateIn"></i>
+                    </div>
+
+                    <table class="table">
+
+                        <tbody>
+                            <tr>
+                                <th scope="row">Origen </th>
+                                <td id="origenSuccess"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Destino </th>
+                                <td id="destinoSuccess"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nombre</th>
+                                <td class="text-capitalize" id="nombreSuccess"></td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row">Email</th>
+                                <td id="emailSuccess"></td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row">Código de asiento</th>
+                                <td id="codigoAsientoSuccess"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fecha de salida</th>
+                                <td id="fechaSuccess"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Hora de salida</th>
+                                <td id="horaSalidaSuccess"></td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button onclick="location.reload();" class="btn btn-outline-success"><span class="col">Aceptar</span></button>
+                    <button onclick="location.href='index.html'" class="btn btn-outline-info"> <i class="fas fa-hotel"></i> <span class="col">Deseo Buscar un Hotel</span></button>
                 </div>
             </div>
         </div>

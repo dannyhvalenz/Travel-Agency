@@ -2,9 +2,13 @@ let precio;
 let cliente;
 var hotelL = "";
 
+function convertDestimo() {
+    return (window.localStorage.getItem('destino') === 'NYC-EU') ? 'NYC' : 'CDMX';
+}
+
 function consultarHotelesInicio() {
 
-    var ciudad = document.getElementById("ciudadInicio").value;
+    var ciudad = (window.localStorage.getItem('destino')) ? convertDestimo() : document.getElementById("ciudadInicio").value;
     var checkIn = document.getElementById("checkIn").value;
     var checkOut = document.getElementById("checkOut").value;
     var huespedes = document.getElementById("huespedes").value;
@@ -21,6 +25,8 @@ function consultarHotelesInicio() {
         actualizarSelectTipoHabitacion(ciudad);
         recuperarHotelNYC(null);
     }
+
+    window.localStorage.removeItem('destino');
     scroll();
 }
 
@@ -411,19 +417,20 @@ function crearTarjetaHabitacion2(tipoHabitacion, numDisponibles) {
 
 function reservar() {
     var ciudad = document.getElementById("ciudadReservacion").value;
+    window.localStorage.setItem('destino', (ciudad === 'NYC') ? 'NYC-EU' : 'CDM-MX');
     // FIXME checar si esta loggeado el cliente
     if (ciudad == "CDMX") {
         var llegada = $("#fechaLlegadaReservacion").val();
         var fechaLlegada = llegada.split("/").reverse().join('-');
         var salida = $("#fechaSalidaReservacion").val();
         var fechaSalida = salida.split("/").reverse().join('-');
-        
+
         var cliente = usuario.email;
         var nombre = usuario.nombre;
         nombre = nombre.split('/');
         axios.get(URL_HOTEL_MX + 'clientes/' + cliente).then((response) => {
             console.log(response.data);
-            if(response.data.mensaje == "usuario existe"){
+            if (response.data.mensaje == "usuario existe") {
                 var reservacion = {
                     Usuario: cliente,
                     tipoHabitacion: $('#tipoHabitacionTicket').text(),
@@ -451,11 +458,11 @@ function reservar() {
                             var apellido = nombre[1];
                             nombre = nombre[0];
                             var correo = usuario.email;
-                            let json = JSON.stringify({ nombre, apellido, correo});
+                            let json = JSON.stringify({ nombre, apellido, correo });
                             console.log(json);
                             this.$http.post('providers/hotel-mex-soap.php', { metodo: 0, json: json }).then(function(respuesta) {
                                 this.cliente = respuesta.data;
-                                if (this.cliente.respuesta == "exito"){
+                                if (this.cliente.respuesta == "exito") {
                                     axios.get(URL_HOTEL_NYC + 'cliente/last').then((response) => {
                                         var reservacion = {
                                             Usuario: usuario.email,
@@ -478,7 +485,7 @@ function reservar() {
                     }
                 });
             }
-            
+
         }).catch((error) => {
             console.log(error);
         });
@@ -573,7 +580,7 @@ function realizarReservacionNYC(reservacion) {
     });
 }
 
-function realizarReservacionMEX(reservacion){
+function realizarReservacionMEX(reservacion) {
     console.log('reservar');
     axios.post(URL_HOTEL_MX + 'reservaciones', reservacion).then((response) => {
         $('#modalReservacion').modal('hide');

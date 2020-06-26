@@ -33,7 +33,11 @@ let login = () => {
                 var data = response.data;
                 console.log(data);
                 window.localStorage.setItem('token', data.token);
+                if (window.localStorage.getItem('idVuelo')) {
+                    asientos(window.localStorage.getItem('idVuelo'));
+                }
                 verificar();
+
 
             })
             .catch((error) => {
